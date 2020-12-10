@@ -20,10 +20,10 @@
 
 </div>
 
-@if ((string)Model.UserId != ViewBag.utilizatorCurent)
+@if ((string)Model.Id != ViewBag.utilizatorCurent)
 {
     <div class="panel-footer">
-        @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", routeValues: new { id = @Model.UserId }))
+        @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", routeValues: new { id = @Model.Id }))
         {
             @Html.HttpMethodOverride(HttpVerbs.Delete)
             <br />
