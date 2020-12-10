@@ -1,0 +1,24 @@
+﻿
+<h2>Lista categorii</h2>
+@if (TempData.ContainsKey("message"))
+{
+    <h1>@ViewBag.message</h1>
+}
+
+@foreach (var cat in ViewBag.Categories)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@cat.CategoryName</div>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn btn-success" href="/Categories/Show/@cat.CategoryID">
+                Afisare categorie
+            </a>
+
+        </div>
+
+    </div>
+}
+<br />
+<a class="btn btn-primary" href="/Categories/New">Adauga categorie</a>
+<a class="btn btn-primary" href="/Products/Index">Lista produse</a>
+<br />

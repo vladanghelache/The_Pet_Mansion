@@ -1,0 +1,54 @@
+﻿
+@model The_Pet_Mansion.Models.Product
+
+<h2>Modificare produs</h2>
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Products"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
+    @Html.Hidden("ProductID")
+
+    @Html.Label("ProductName", "Denumire Produs")
+    <br />
+    @Html.Editor("ProductName", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.ProductName, null, new { @class = "text-danger" })
+    <br /><br />
+
+    @Html.Label("Description", "Descriere produs")
+    <br />
+    @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Description, null, new { @class = "text-danger" })
+    <br /><br />
+    @Html.Hidden("Date")
+
+    @Html.Label("Price", "Pret produs")
+    <br />
+    @Html.EditorFor(m => m.Price, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Price, null, new { @class = "text-danger" })
+    <br /><br />
+
+    @Html.Label("Stock", "Cantitate produs")
+    <br />
+    @Html.EditorFor(m => m.Stock, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Stock, null, new { @class = "text-danger" })
+    <br /><br />
+
+    @Html.Label("Selectati categoria")
+
+    @Html.DropDownListFor(m => m.CategoryID, new SelectList(Model.Categories, "Value", "Text"),
+    "Selectati categoria", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.CategoryID, null, new { @class = "text-danger" })
+    <br />
+
+
+    @Html.DropDownListFor(m => m.AnimalID, new SelectList(Model.Animals, "Value", "Text"),
+    "Selectati animalul caruia ii este destinat produsul", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.AnimalID, null, new { @class = "text-danger" })
+    <br />
+
+    <button class="btn btn-success" type="submit">Modifica produs</button>
+}
+

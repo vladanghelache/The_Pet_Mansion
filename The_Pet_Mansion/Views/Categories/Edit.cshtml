@@ -1,0 +1,23 @@
+﻿
+@model The_Pet_Mansion.Models.Category
+
+<h2>Modificare categorie</h2>
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Categories"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+    <br />
+    @Html.HiddenFor(m => m.CategoryID)
+
+    @Html.Label("CategoryName", "Denumire categorie")
+    <br />
+    @Html.EditorFor(m => m.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.CategoryName, null, new { @class = "text-danger" })
+
+    <br />
+    <button class="btn btn-sm btn-success" type="submit">Editeaza categorie</button>
+}
+
+
+

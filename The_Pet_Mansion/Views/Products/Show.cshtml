@@ -1,0 +1,92 @@
+﻿@model The_Pet_Mansion.Models.Product
+
+<h2>Afisare Produs</h2>
+<br />
+<a href="/Products/Index">Inapoi la produse</a>
+<br />
+
+<div class="panel panel-default">
+    @Html.Partial("ProductInfo", Model)
+    <div class="panel-footer">
+        <a class="btn btn-success pull-left" href="/Products/Edit/@Model.ProductID">Modifica produs</a>
+        
+        @using (Html.BeginForm(actionName: "Delete", controllerName: "Products", method: FormMethod.Post, routeValues: new { id = @Model.ProductID }))
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger pull-right" type="submit">Elimina produs</button>
+        }
+        <div class="clearfix"></div>
+    </div>
+</div>
+<br />
+<br />
+<hr />
+@if (Model.Reviews.Count == 1)
+{
+<h3>1 review</h3>
+}
+else if (Model.Reviews.Count == 0)
+{
+<h3>Niciun review</h3>
+}
+else if (Model.Reviews.Count < 20)
+{
+<h3>@Model.Reviews.Count review-uri</h3>
+}
+else
+{
+    <h3>@Model.Reviews.Count de review-uri</h3>
+}
+
+<br /><br />
+@foreach (var review in Model.Reviews)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div>
+                    <strong>@review.User.UserName</strong>
+                    
+                    <p>@review.Content</p>
+                    <small class="pull-right">@review.Date</small>
+                </div>
+                <div style="display: inline-block; float : left; margin-right: 15px">
+                    <a class="glyphicon glyphicon-pencil" href="/Reviews/Edit/@review.ReviewID"></a>
+                </div>
+                <div style="display: inline-block; float : left">
+                    <form method="post" action="/Reviews/Delete/@review.ReviewID">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button class="glyphicon glyphicon-trash" style="border: none; background: transparent" type="submit"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <hr />
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="panel">
+                <form method="post" action="/Reviews/New">
+                    <div class="panel-body">
+                        <input type="hidden" name="ProductID" value="@Model.ProductID" />
+                        <label>Continut review</label>
+                        <br />
+                        <textarea class="form-control" name="Content"></textarea>
+                        <br />
+                        <button class="btn btn-success " type="submit">Adauga review</button>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
