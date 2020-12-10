@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,12 +11,12 @@ namespace The_Pet_Mansion.Controllers
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         // GET: Products
-        //comm
+        [Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Index()
         {
-            var products = db.Products.Include("Category").Include("Animal");
+            var products = db.Products.Include("Category").Include("Animal").Include("User");
          
             ViewBag.Products = products;
             if (TempData.ContainsKey("message"))
@@ -67,22 +68,27 @@ namespace The_Pet_Mansion.Controllers
             return selectList;
         }
 
+
+        [Authorize(Roles = "Editor,Admin")]
         public ActionResult New()
         {
             Product product = new Product();
             // preluam lista de categorii din metoda GetAllCategories()
             product.Categories = GetAllCategories();
             product.Animals = GetAllAnimals();
+            product.UserId = User.Identity.GetUserId();
             return View(product);
         }
 
+
+        [Authorize(Roles = "Editor,Admin")]
         [HttpPost]
         public ActionResult New(Product product)
         {
             product.Date = DateTime.Now;
             product.Categories = GetAllCategories();
             product.Animals = GetAllAnimals();
-
+            product.UserId = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
@@ -95,23 +101,34 @@ namespace The_Pet_Mansion.Controllers
 
                 else
                 {
+                    product.Categories = GetAllCategories();
+                    product.Animals = GetAllAnimals();
                     return View(product);
                 }
 
             }
             catch (Exception e)
             {
+
+                product.Categories = GetAllCategories();
+                product.Animals = GetAllAnimals();
                 return View(product);
             }
         }
 
+
+        [Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Show (int id)
         {
             Product product = db.Products.Find(id);
 
+            SetAccessRights();
+
             return View(product);
         }
 
+
+        [Authorize(Roles = "Editor,Admin")]
         [HttpGet]
         public ActionResult Edit (int id)
         {
@@ -119,10 +136,22 @@ namespace The_Pet_Mansion.Controllers
             product.Categories = GetAllCategories();
             product.Animals = GetAllAnimals();
 
-            return View(product);
+            if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                return View(product);
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui produs care nu va apartine!";
+                return RedirectToAction("Index");
+            }
+
+           
 
         }
 
+
+        [Authorize(Roles = "Editor,Admin")]
         [HttpPut]
         public ActionResult Edit (int id, Product requestProduct)
         {
@@ -135,42 +164,83 @@ namespace The_Pet_Mansion.Controllers
                 if (ModelState.IsValid)
                 {
                     Product product = db.Products.Find(id);
-                    if (TryUpdateModel(product))
+                    if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                     {
-                        product = requestProduct;
-                        db.SaveChanges();
-                        TempData["message"] = "Produsul a fost modificat cu succes!";
+                        if (TryUpdateModel(product))
+                        {
+                            product = requestProduct;
+                            db.SaveChanges();
+                            TempData["message"] = "Produsul a fost modificat cu succes!";
+                            
+                        }
+
                         return RedirectToAction("Index");
+
                     }
 
                     else
                     {
-                        return View(requestProduct);
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui produs care nu va apartine!";
+                        return RedirectToAction("Index");
                     }
+
+                    
                 }
 
                 else
                 {
+                    requestProduct.Categories = GetAllCategories();
+                    requestProduct.Animals = GetAllAnimals();
                     return View(requestProduct);
+
                 }
             }
 
             catch (Exception e)
             {
-                return View();
+                requestProduct.Categories = GetAllCategories();
+                requestProduct.Animals = GetAllAnimals();
+                return View(requestProduct);
             }
 
             
         }
 
+
+        [Authorize(Roles = "Editor,Admin")]
         [HttpDelete]
         public ActionResult Delete (int id)
+        { 
+
+           Product product = db.Products.Find(id);
+            if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                db.Products.Remove(product);
+                db.SaveChanges();
+                TempData["message"] = "Produsul a fost sters!";
+                return RedirectToAction("Index");
+            }
+
+            else
+            {
+                
+              TempData["message"] = "Nu aveti dreptul sa stergeti un produs care nu va apartine!";
+              return RedirectToAction("Index");
+                
+            }
+                
+        }
+
+        private void SetAccessRights()
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
-            TempData["message"] = "Produsul a fost sters!";
-            return RedirectToAction("Index");
+            ViewBag.afisareButoane = false;
+            if (User.IsInRole("Editor") || User.IsInRole("Admin"))
+            {
+                ViewBag.afisareButoane = true;
+            }
+
+            ViewBag.esteAdmin = User.IsInRole("Admin");
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
         }
     }
 }

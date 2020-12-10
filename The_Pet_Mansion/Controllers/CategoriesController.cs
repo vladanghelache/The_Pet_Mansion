@@ -7,6 +7,7 @@ using The_Pet_Mansion.Models;
 
 namespace The_Pet_Mansion.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

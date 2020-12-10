@@ -7,17 +7,23 @@
 
 <div class="panel panel-default">
     @Html.Partial("ProductInfo", Model)
+    @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
+    {
     <div class="panel-footer">
         <a class="btn btn-success pull-left" href="/Products/Edit/@Model.ProductID">Modifica produs</a>
-        
+
         @using (Html.BeginForm(actionName: "Delete", controllerName: "Products", method: FormMethod.Post, routeValues: new { id = @Model.ProductID }))
         {
             @Html.HttpMethodOverride(HttpVerbs.Delete)
             <button class="btn btn-danger pull-right" type="submit">Elimina produs</button>
         }
+
+
         <div class="clearfix"></div>
-    </div>
-</div>
+        </div>
+    }
+
+ </div>
 <br />
 <br />
 <hr />
@@ -47,19 +53,23 @@ else
             <div class="col-md-8">
                 <div>
                     <strong>@review.User.UserName</strong>
-                    
+
                     <p>@review.Content</p>
                     <small class="pull-right">@review.Date</small>
                 </div>
-                <div style="display: inline-block; float : left; margin-right: 15px">
-                    <a class="glyphicon glyphicon-pencil" href="/Reviews/Edit/@review.ReviewID"></a>
-                </div>
-                <div style="display: inline-block; float : left">
-                    <form method="post" action="/Reviews/Delete/@review.ReviewID">
-                        @Html.HttpMethodOverride(HttpVerbs.Delete)
-                        <button class="glyphicon glyphicon-trash" style="border: none; background: transparent" type="submit"></button>
-                    </form>
-                </div>
+                @if (review.UserID == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
+                {
+                    <div style="display: inline-block; float : left; margin-right: 15px">
+                        <a class="glyphicon glyphicon-pencil" href="/Reviews/Edit/@review.ReviewID"></a>
+                    </div>
+                    <div style="display: inline-block; float : left">
+                        <form method="post" action="/Reviews/Delete/@review.ReviewID">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button class="glyphicon glyphicon-trash" style="border: none; background: transparent" type="submit"></button>
+                        </form>
+                    </div>
+                }
+
             </div>
         </div>
         <div class="col-md-2"></div>
