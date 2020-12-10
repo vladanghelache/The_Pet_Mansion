@@ -12,6 +12,7 @@ namespace The_Pet_Mansion.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
         // GET: Products
+        //comm
         public ActionResult Index()
         {
             var products = db.Products.Include("Category").Include("Animal");
