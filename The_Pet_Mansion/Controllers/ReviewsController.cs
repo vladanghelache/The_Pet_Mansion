@@ -19,6 +19,7 @@ namespace The_Pet_Mansion.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles ="Admin,Editor,User")]
         public ActionResult Delete(int id)
         {
             Review rev = db.Reviews.Find(id);
@@ -40,6 +41,7 @@ namespace The_Pet_Mansion.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Editor,User")]
         public ActionResult New(Review rev)
         {
             rev.Date = DateTime.Now;

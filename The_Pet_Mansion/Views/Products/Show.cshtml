@@ -1,5 +1,6 @@
 ﻿@model The_Pet_Mansion.Models.Product
 
+
 <h2>Afisare Produs</h2>
 <br />
 <a href="/Products/Index">Inapoi la produse</a>
@@ -83,18 +84,23 @@ else
         </div>
         <div class="col-md-8">
             <div class="panel">
-                <form method="post" action="/Reviews/New">
-                    <div class="panel-body">
-                        <input type="hidden" name="ProductID" value="@Model.ProductID" />
-                        <label>Continut review</label>
-                        <br />
-                        <textarea class="form-control" name="Content"></textarea>
-                        <br />
-                        <button class="btn btn-success " type="submit">Adauga review</button>
+                @if (User.IsInRole("Admin") || User.IsInRole("Editor") || User.IsInRole("User"))
+                {
+                    <form method="post" action="/Reviews/New">
+                        <div class="panel-body">
+                            <input type="hidden" name="ProductID" value="@Model.ProductID" />
+                            <label>Continut review</label>
+                            <br />
+                            <textarea class="form-control" name="Content"></textarea>
+                            <br />
+                            <button class="btn btn-success " type="submit">Adauga review</button>
+                            
 
 
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                }
+
             </div>
         </div>
         <div class="col-md-2"></div>

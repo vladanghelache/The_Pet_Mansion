@@ -13,7 +13,7 @@ namespace The_Pet_Mansion.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Products
-        [Authorize(Roles = "User,Editor,Admin")]
+        //[Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Index()
         {
             var products = db.Products.Include("Category").Include("Animal").Include("User");
@@ -117,7 +117,7 @@ namespace The_Pet_Mansion.Controllers
         }
 
 
-        [Authorize(Roles = "User,Editor,Admin")]
+        //[Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Show (int id)
         {
             Product product = db.Products.Find(id);

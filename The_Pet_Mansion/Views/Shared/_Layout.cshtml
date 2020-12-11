@@ -27,10 +27,10 @@
                         <li>@Html.ActionLink("Afisare categorii", "Index", "Categories")</li>
                         <li>@Html.ActionLink("Afisare utilizatori", "Index", "Users")</li>
                     }
-                    @if (User.IsInRole("User") || User.IsInRole("Editor"))
-                    {
+                   
+                    
                         <li>@Html.ActionLink("Afisare produse", "Index", "Products")</li>
-                    }
+                    
 
                     @if (User.IsInRole("Editor") || User.IsInRole("Admin"))
                     {
