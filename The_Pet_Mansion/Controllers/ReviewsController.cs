@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,9 +22,21 @@ namespace The_Pet_Mansion.Controllers
         public ActionResult Delete(int id)
         {
             Review rev = db.Reviews.Find(id);
-            db.Reviews.Remove(rev);
-            db.SaveChanges();
-            return Redirect("/Products/Show/" + rev.ProductID);
+
+            if (rev.UserID == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                
+                db.Reviews.Remove(rev);
+                db.SaveChanges();
+                return Redirect("/Products/Show/" + rev.ProductID);
+            }
+            else
+            {
+
+                TempData["message"] = "Nu aveti dreptul sa stergeti un review care nu va apartine!";
+                return RedirectToAction("Index");
+
+            }
         }
 
         [HttpPost]
@@ -34,8 +47,9 @@ namespace The_Pet_Mansion.Controllers
 
 
             try
-            { 
-                
+            {
+
+                 rev.UserID = User.Identity.GetUserId();
                  db.Reviews.Add(rev);
                  db.SaveChanges();
                  return Redirect("/Products/Show/" + rev.ProductID);
@@ -53,8 +67,15 @@ namespace The_Pet_Mansion.Controllers
         public ActionResult Edit(int id)
         {
             Review rev = db.Reviews.Find(id);
-            
-            return View(rev);
+            if (rev.UserID == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                return View(rev);
+            else
+            {
+
+                TempData["message"] = "Nu aveti dreptul sa editati un review care nu va apartine!";
+                return RedirectToAction("Index");
+
+            }
         }
 
         [HttpPut]
@@ -65,16 +86,27 @@ namespace The_Pet_Mansion.Controllers
                 if (ModelState.IsValid)
                 {
                     Review rev = db.Reviews.Find(id);
-                    if (TryUpdateModel(rev))
+                    if (rev.UserID == User.Identity.GetUserId() || User.IsInRole("Admin"))
                     {
-                        rev.Content = requestReview.Content;
-                        db.SaveChanges();
-                        return Redirect("/Products/Show/"+ rev.ProductID);
+                        if (TryUpdateModel(rev))
+                        {
+                            rev.Content = requestReview.Content;
+                            db.SaveChanges();
+                            return Redirect("/Products/Show/" + rev.ProductID);
+                        }
+                        else
+                        {
+                            return View(requestReview);
+                        }
                     }
                     else
                     {
-                        return View(requestReview);
+
+                        TempData["message"] = "Nu aveti dreptul sa editati un review care nu va apartine!";
+                        return RedirectToAction("Index");
+
                     }
+
                 }
                 else
                 {

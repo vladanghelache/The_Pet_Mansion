@@ -14,7 +14,7 @@ namespace The_Pet_Mansion.Models
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public string ProductID { get; set; }
+        public int ProductID { get; set; }
         public string UserID { get; set; }
 
         public virtual Product Product { get; set; }

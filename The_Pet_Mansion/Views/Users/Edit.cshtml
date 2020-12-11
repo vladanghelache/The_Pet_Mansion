@@ -1,0 +1,34 @@
+﻿@model The_Pet_Mansion.Models.ApplicationUser
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Users", routeValues: new
+{ id = @Model.Id }))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    <br />
+    <i class="glyphicon glyphicon-user"></i>
+    @Html.Label("UserName", "Nume utilizator", new { @class = "" })
+    <br />
+    @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control" } })
+    <br /><br />
+    <i class="glyphicon glyphicon-envelope"></i>
+    @Html.Label("Email", "Email utilizator", new { @class = "" })
+    <br />
+    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+    <br /><br />
+    <i class="glyphicon glyphicon-phone"></i>
+    @Html.Label("PhoneNumber", "Numar telefon")
+    <br />
+    @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+    <br /><br />
+    <i class="glyphicon glyphicon-th-list"></i>
+    <label>Selectati rolul</label>
+    @Html.DropDownList("newRole", new SelectList(Model.AllRoles, "Value", "Text",
+   ViewBag.userRole), null, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-sm btn-success" type="submit">
+        Modifica datele
+        utilizatorului
+    </button>
+}
