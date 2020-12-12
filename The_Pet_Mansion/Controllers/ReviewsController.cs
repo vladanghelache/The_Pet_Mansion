@@ -65,7 +65,7 @@ namespace The_Pet_Mansion.Controllers
             }
 
         }
-
+        [Authorize(Roles = "Admin,Editor,User")]
         public ActionResult Edit(int id)
         {
             Review rev = db.Reviews.Find(id);
@@ -81,6 +81,7 @@ namespace The_Pet_Mansion.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin,Editor,User")]
         public ActionResult Edit(int id, Review requestReview)
         {
             try
