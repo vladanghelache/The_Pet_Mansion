@@ -68,6 +68,7 @@ namespace The_Pet_Mansion.Controllers
             return selectList;
         }
 
+       
 
         [Authorize(Roles = "Editor,Admin")]
         public ActionResult New()
@@ -76,6 +77,7 @@ namespace The_Pet_Mansion.Controllers
             // preluam lista de categorii din metoda GetAllCategories()
             product.Categories = GetAllCategories();
             product.Animals = GetAllAnimals();
+            //product.Vis = VisibleOptions();
             product.UserId = User.Identity.GetUserId();
             return View(product);
         }
@@ -88,6 +90,7 @@ namespace The_Pet_Mansion.Controllers
             product.Date = DateTime.Now;
             product.Categories = GetAllCategories();
             product.Animals = GetAllAnimals();
+           
             product.UserId = User.Identity.GetUserId();
             try
             {
@@ -103,6 +106,7 @@ namespace The_Pet_Mansion.Controllers
                 {
                     product.Categories = GetAllCategories();
                     product.Animals = GetAllAnimals();
+         
                     return View(product);
                 }
 
@@ -112,6 +116,7 @@ namespace The_Pet_Mansion.Controllers
 
                 product.Categories = GetAllCategories();
                 product.Animals = GetAllAnimals();
+               
                 return View(product);
             }
         }
@@ -125,7 +130,14 @@ namespace The_Pet_Mansion.Controllers
                           where var.ProductID == id
                           select var.Rating;
 
-            product.AvgRating = reviews.Average();
+
+           if(reviews.Any())
+            {
+                product.AvgRating = reviews.Average();
+            }
+                
+            
+           
             db.SaveChanges();
             SetAccessRights();
 
@@ -140,6 +152,7 @@ namespace The_Pet_Mansion.Controllers
             Product product = db.Products.Find(id);
             product.Categories = GetAllCategories();
             product.Animals = GetAllAnimals();
+            
 
             if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
             {
@@ -163,7 +176,7 @@ namespace The_Pet_Mansion.Controllers
 
             requestProduct.Categories = GetAllCategories();
             requestProduct.Animals = GetAllAnimals();
-
+           
             try
             {
                 if (ModelState.IsValid)

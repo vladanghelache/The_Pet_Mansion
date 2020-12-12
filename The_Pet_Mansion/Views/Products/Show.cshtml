@@ -30,7 +30,7 @@
 
     }
 
-    
+
 
 </script>
 
@@ -39,39 +39,43 @@
 <a href="/Products/Index">Inapoi la produse</a>
 <br />
 
-<div class="panel panel-default">
-    @Html.Partial("ProductInfo", Model)
-    @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
-    {
-    <div class="panel-footer">
-        <a class="btn btn-success pull-left" href="/Products/Edit/@Model.ProductID">Modifica produs</a>
 
-        @using (Html.BeginForm(actionName: "Delete", controllerName: "Products", method: FormMethod.Post, routeValues: new { id = @Model.ProductID }))
+
+    <div class="panel panel-default">
+
+
+        @Html.Partial("ProductInfo", Model)
+        @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
         {
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit">Elimina produs</button>
+            <div class="panel-footer">
+                <a class="btn btn-success pull-left" href="/Products/Edit/@Model.ProductID">Modifica produs</a>
+
+                @using (Html.BeginForm(actionName: "Delete", controllerName: "Products", method: FormMethod.Post, routeValues: new { id = @Model.ProductID }))
+                {
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Elimina produs</button>
+                }
+
+
+                <div class="clearfix"></div>
+            </div>
         }
 
-
-        <div class="clearfix"></div>
-        </div>
-    }
-
- </div>
+    </div>
 <br />
 <br />
 <hr />
 @if (Model.Reviews.Count == 1)
 {
-<h3>1 review</h3>
+    <h3>1 review</h3>
 }
 else if (Model.Reviews.Count == 0)
 {
-<h3>Niciun review</h3>
+    <h3>Niciun review</h3>
 }
 else if (Model.Reviews.Count < 20)
 {
-<h3>@Model.Reviews.Count review-uri</h3>
+    <h3>@Model.Reviews.Count review-uri</h3>
 }
 else
 {
@@ -88,18 +92,18 @@ else
                 <div>
                     <strong>@review.User.UserName</strong>
                     <div class="pull-right">
-                    @for (int i = 1; i <= review.Rating; i++)
-                    {
-                        <span class="glyphicon glyphicon-star"></span>
-                    }
-                    @for (int i = review.Rating +1 ; i <= 5; i++)
-                    {
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                    }
+                        @for (int i = 1; i <= review.Rating; i++)
+                        {
+                            <span class="glyphicon glyphicon-star"></span>
+                        }
+                        @for (int i = review.Rating + 1; i <= 5; i++)
+                        {
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        }
                     </div>
 
                     <p>@review.Content</p>
-                   
+
                     <small class="pull-right">@review.Date</small>
                 </div>
                 @if (review.UserID == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
@@ -146,7 +150,7 @@ else
                                 <span id="span5" onmouseout="CRateOut(5)" onmouseover="CRateOver(5)" onclick="CRateClick(5)" class="glyphicon glyphicon-star-empty"></span>
                             </div>
                             <div>
-                                <input type="hidden" name="Rating" id="lblRating"/>
+                                <input type="hidden" name="Rating" id="lblRating" />
                             </div>
                             <br />
 

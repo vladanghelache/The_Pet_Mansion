@@ -39,16 +39,34 @@
     @Html.Label("Selectati categoria")
 
     @Html.DropDownListFor(m => m.CategoryID, new SelectList(Model.Categories, "Value", "Text"),
-    "Selectati categoria", new { @class = "form-control" })
+        "Selectati categoria", new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.CategoryID, null, new { @class = "text-danger" })
     <br />
 
 
+    @Html.Label("Selectati animalul caruia ii este destinat produsul")
     @Html.DropDownListFor(m => m.AnimalID, new SelectList(Model.Animals, "Value", "Text"),
-    "Selectati animalul caruia ii este destinat produsul", new { @class = "form-control" })
+        new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.AnimalID, null, new { @class = "text-danger" })
     <br />
 
+    if (User.IsInRole("Admin"))
+    {
+        @Html.Label("Selectati daca produsul este vizibil pentru utilizatori")
+        @Html.DropDownListFor(m => m.Visible, new SelectList(new[]
+                        {
+
+                       new SelectListItem { Value = "false", Text = "False" },
+                       new SelectListItem { Value = "true", Text = "True" },
+                   },
+                        "Value",
+                        "Text"
+                        ),
+                 new { @class = "form-control" })
+    }
+
+
+    <br />
     <button class="btn btn-success" type="submit">Modifica produs</button>
 }
 

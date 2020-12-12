@@ -24,7 +24,8 @@ namespace The_Pet_Mansion.Models
         public float Price { get; set; }
         public Double AvgRating { get; set; }
         public DateTime Date { get; set; }
-
+        public bool Visible { get; set; }
+        
         [Required(ErrorMessage = "Categoria trebuie selectata!")]
         public int CategoryID { get; set; }
         [Required(ErrorMessage = "Tipul animalului trebuie selectat!")]
@@ -42,6 +43,7 @@ namespace The_Pet_Mansion.Models
 
         public IEnumerable<SelectListItem> Categories { get; set; }
         public IEnumerable<SelectListItem> Animals { get; set; }
+        public IEnumerable<SelectListItem> Vis { get; set; }
 
 
 
