@@ -4,6 +4,17 @@
 <div class="panel-body">
     <strong>Descriere produs: </strong>@Model.Description
     <br />
+    <div class="pull-right">
+        <p>Rating: @Math.Round(@Model.AvgRating, 2) /5</p>
+        @for (int i = 1; i <= Model.AvgRating; i++)
+        {
+            <span class="glyphicon glyphicon-star"></span>
+        }
+        @for (int i =(int) Model.AvgRating + 1; i <= 5; i++)
+        {
+            <span class="glyphicon glyphicon-star-empty"></span>
+        }
+    </div>
     <strong>@Model.Price Lei</strong>
     <br />
     <i class="glyphicon glyphicon-list"></i> @Model.Category.CategoryName

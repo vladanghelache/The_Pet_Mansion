@@ -37,7 +37,6 @@ namespace The_Pet_Mansion.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
         public DbSet<CartLine> CartLines { get; set; }

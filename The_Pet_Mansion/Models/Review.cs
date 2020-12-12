@@ -13,6 +13,7 @@ namespace The_Pet_Mansion.Models
         [Required(ErrorMessage = "Continutul review-ului nu poate fi gol!")]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
+        public int Rating { get; set; }
         public DateTime Date { get; set; }
         public int ProductID { get; set; }
         public string UserID { get; set; }

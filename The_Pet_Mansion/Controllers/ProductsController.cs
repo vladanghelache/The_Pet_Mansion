@@ -121,7 +121,12 @@ namespace The_Pet_Mansion.Controllers
         public ActionResult Show (int id)
         {
             Product product = db.Products.Find(id);
+            var reviews = from var in db.Reviews
+                          where var.ProductID == id
+                          select var.Rating;
 
+            product.AvgRating = reviews.Average();
+            db.SaveChanges();
             SetAccessRights();
 
             return View(product);

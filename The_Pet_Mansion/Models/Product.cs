@@ -22,6 +22,7 @@ namespace The_Pet_Mansion.Models
         [Required(ErrorMessage = "Pretul produsului trebuie sa fie specificat!")]
         [Range(0.05, float.MaxValue, ErrorMessage = "Pretul produsului trebuie sa fie cel putin egal cu 0.05!")]
         public float Price { get; set; }
+        public Double AvgRating { get; set; }
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "Categoria trebuie selectata!")]
@@ -32,7 +33,6 @@ namespace The_Pet_Mansion.Models
 
 
         public virtual ICollection <Review> Reviews { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
         public virtual ICollection<CartLine> CartLines { get; set; }
 

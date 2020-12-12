@@ -1,5 +1,40 @@
 ﻿@model The_Pet_Mansion.Models.Review
 
+<script type="text/javascript">
+    function CRateOut(rating) {
+        for (var i = 1; i <= rating; i++) {
+            $("#" + i).attr('class', 'glyphicon glyphicon-star-empty');
+        }
+    }
+
+    function CRateOver(rating) {
+        for (var i = 1; i <= rating; i++) {
+            $("#" + i).attr('class', 'glyphicon glyphicon-star');
+        }
+    }
+
+    function CRateClick(rating) {
+        $("#lblRating").val(rating);
+        for (var i = 1; i <= rating; i++) {
+            $("#" + i).attr('class', 'glyphicon glyphicon-star');
+        }
+        for (var i = rating + 1; i <= 5; i++) {
+            $("#" + i).attr('class', 'glyphicon glyphicon-star-empty');
+        }
+    }
+
+    function CRateSelected() {
+        var rating = $("#lblRating").val();
+        for (var i = 1; i <= rating; i++) {
+            $("#" + i).attr('class', 'glyphicon glyphicon-star');
+        }
+
+    }
+
+
+
+</script>
+
 <h2>Editare Review</h2>
 <form method="post" action="/Reviews/Edit/@Model.ReviewID">
     @Html.HttpMethodOverride(HttpVerbs.Put)
@@ -7,11 +42,32 @@
     @Html.ValidationSummary(false, null, new { @class = "text-danger" })
     @Html.Hidden("ReviewID")
     @Html.Hidden("Date")
-    
+
     @Html.Label("Content", "Continut Review")
     <br />
     @Html.EditorFor(m => m.Content, new { htmlAttributes = new { @class = "form-control" } })
     @Html.ValidationMessageFor(m => m.Content, null, new { @class = "text-danger" })
+
+    <label>Editeaza rating</label>
+    <div onmouseout="CRateSelected()" style="font-size:x-large">
+        @for (int i = 1; i <= Model.Rating; i++)
+        {
+            
+            <span id="@i" onmouseout="CRateOut(@i)" onmouseover="CRateOver(@i)" onclick="CRateClick(@i)" class="glyphicon glyphicon-star"></span>
+        }
+        @for (int i = Model.Rating + 1 ; i <= 5; i++)
+        {
+            <span id="@i" onmouseout="CRateOut(@i)" onmouseover="CRateOver(@i)" onclick="CRateClick(@i)" class="glyphicon glyphicon-star-empty"></span>
+        }
+        
+
+    </div>
+    <div>
+        <input type="hidden" name="Rating" id="lblRating" value="@Model.Rating"/>
+    </div>
     <br />
+    <br />
+
+
     <button class="btn btn-success" type="submit">Editeaza Review</button>
 </form>

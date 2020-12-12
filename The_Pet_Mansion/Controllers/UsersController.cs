@@ -123,11 +123,7 @@ namespace The_Pet_Mansion.Controllers
             {
                 db.Reviews.Remove(review);
             }
-            var ratings = db.Ratings.Where(rat => rat.UserID == id);
-            foreach (var rating in ratings)
-            {
-                db.Ratings.Remove(rating);
-            }
+            
             var orders = db.Orders.Where(ord => ord.UserID == id);
             foreach (var order in orders)
             {
