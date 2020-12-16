@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,8 +17,11 @@ namespace The_Pet_Mansion.Controllers
         //[Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Index()
         {
-            var products = db.Products.Include("Category").Include("Animal").Include("User");
-         
+            var products = db.Products.Include("Category").Include("Animal").Include("User").Include("File");
+            /*var files = from path in db.UploadFiles
+                        where 
+                        select path;            ViewBag.Files = files;
+            */
             ViewBag.Products = products;
             if (TempData.ContainsKey("message"))
             {
@@ -73,54 +77,129 @@ namespace The_Pet_Mansion.Controllers
         [Authorize(Roles = "Editor,Admin")]
         public ActionResult New()
         {
-            Product product = new Product();
+            Class1 c = new Class1();
             // preluam lista de categorii din metoda GetAllCategories()
-            product.Categories = GetAllCategories();
-            product.Animals = GetAllAnimals();
+            c.Product.Categories = GetAllCategories();
+            c.Product.Animals = GetAllAnimals();
             //product.Vis = VisibleOptions();
-            product.UserId = User.Identity.GetUserId();
-            return View(product);
+           c.Product.UserId = User.Identity.GetUserId();
+            return View(c);
         }
 
 
         [Authorize(Roles = "Editor,Admin")]
         [HttpPost]
-        public ActionResult New(Product product)
+        public ActionResult New(Class1 c)
         {
-            product.Date = DateTime.Now;
-            product.Categories = GetAllCategories();
-            product.Animals = GetAllAnimals();
+            c.Product.Date = DateTime.Now;
+            c.Product.Categories = GetAllCategories();
+            c.Product.Animals = GetAllAnimals();
            
-            product.UserId = User.Identity.GetUserId();
+            c.Product.UserId = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Products.Add(product);
+                    db.Products.Add(c.Product);
                     db.SaveChanges();
                     TempData["message"] = "Produsul a fost adaugat cu succes!";
-                    return RedirectToAction("Index");
+                    Upload2(c.UploadedFile, c.Product.ProductID);
+                    return Redirect("Index");                   
                 }
 
                 else
                 {
-                    product.Categories = GetAllCategories();
-                    product.Animals = GetAllAnimals();
+                    c.Product.Categories = GetAllCategories();
+                    c.Product.Animals = GetAllAnimals();
          
-                    return View(product);
+                    return View(c);
                 }
 
             }
             catch (Exception e)
             {
 
-                product.Categories = GetAllCategories();
-                product.Animals = GetAllAnimals();
+                c.Product.Categories = GetAllCategories();
+                c.Product.Animals = GetAllAnimals();
                
-                return View(product);
+                return View(c);
             }
         }
 
+        [NonAction]
+        public ActionResult Upload2(HttpPostedFileBase uploadedFile, int id)
+        {
+            // Se preia numele fisierul
+            string uploadedFileName = uploadedFile.FileName;
+            string uploadedFileExtension = Path.GetExtension(uploadedFileName);
+
+            // Se poate verifica daca extensia este intr-o lista dorita
+            if (uploadedFileExtension == ".png" || uploadedFileExtension == ".jpg" || uploadedFileExtension == ".pdf")
+            {
+                // Se stocheaza fisierul in folderul Files (folderul trebuie creat in proiect)
+
+                // 1. Se seteaza calea folderului de upload
+                string uploadFolderPath = Server.MapPath("~//Files//");
+
+                // 2. Se salveaza fisierul in acel folder
+                uploadedFile.SaveAs(uploadFolderPath + uploadedFileName);
+
+                // 3. Se face o instanta de model si se populeaza cu datele necesare
+                UploadFile file = new UploadFile();
+                file.FileId = id;
+                file.Extension = uploadedFileExtension;
+                file.FileName = uploadedFileName;
+                file.FilePath = uploadFolderPath + uploadedFileName;
+
+                // 4. Se adauga modelul in baza de date
+                db.UploadFiles.Add(file);
+                db.SaveChanges();
+
+                // 5. Return catre index cu mesaj de succes - TODO
+                return Redirect("/Products/Index");
+
+            }
+
+            // TODO: tratarea erorilor
+            return View();
+        }
+
+        [NonAction]
+        public ActionResult ChangePhoto(HttpPostedFileBase uploadedFile, int id)
+        {
+            // Se preia numele fisierul
+            string uploadedFileName = uploadedFile.FileName;
+            string uploadedFileExtension = Path.GetExtension(uploadedFileName);
+
+            // Se poate verifica daca extensia este intr-o lista dorita
+            if (uploadedFileExtension == ".png" || uploadedFileExtension == ".jpg" || uploadedFileExtension == ".pdf")
+            {
+                // Se stocheaza fisierul in folderul Files (folderul trebuie creat in proiect)
+
+                // 1. Se seteaza calea folderului de upload
+                string uploadFolderPath = Server.MapPath("~//Files//");
+
+                // 2. Se salveaza fisierul in acel folder
+                uploadedFile.SaveAs(uploadFolderPath + uploadedFileName);
+
+                
+                UploadFile file = db.UploadFiles.Find(id);
+                
+                file.Extension = uploadedFileExtension;
+                file.FileName = uploadedFileName;
+                file.FilePath = uploadFolderPath + uploadedFileName;
+
+                
+                db.SaveChanges();
+
+                
+                return Redirect("/Products/Index");
+
+            }
+
+            // TODO: tratarea erorilor
+            return View();
+        }
 
         //[Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Show (int id)
@@ -149,14 +228,15 @@ namespace The_Pet_Mansion.Controllers
         [HttpGet]
         public ActionResult Edit (int id)
         {
-            Product product = db.Products.Find(id);
-            product.Categories = GetAllCategories();
-            product.Animals = GetAllAnimals();
+            Class1 c = new Class1();
+            c.Product = db.Products.Find(id);
+            c.Product.Categories = GetAllCategories();
+            c.Product.Animals = GetAllAnimals();
             
 
-            if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            if (c.Product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
             {
-                return View(product);
+                return View(c);
             }
             else
             {
@@ -171,25 +251,42 @@ namespace The_Pet_Mansion.Controllers
 
         [Authorize(Roles = "Editor,Admin")]
         [HttpPut]
-        public ActionResult Edit (int id, Product requestProduct)
+        public ActionResult Edit (int id, Class1 c)
         {
 
-            requestProduct.Categories = GetAllCategories();
-            requestProduct.Animals = GetAllAnimals();
+            c.Product.Categories = GetAllCategories();
+            c.Product.Animals = GetAllAnimals();
            
             try
             {
                 if (ModelState.IsValid)
                 {
+                   
                     Product product = db.Products.Find(id);
                     if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                     {
+                       
                         if (TryUpdateModel(product))
                         {
-                            product = requestProduct;
+                            
+                            product.AnimalID = c.Product.AnimalID;
+                            product.CategoryID = c.Product.CategoryID;
+                            product.Description = c.Product.Description;
+                            product.Price = c.Product.Price;
+                            product.Visible = c.Product.Visible;
+                            product.Date = c.Product.Date;
+                            product.ProductName = c.Product.ProductName;
+                            product.Stock = c.Product.Stock;
+                            
                             db.SaveChanges();
+                           
                             TempData["message"] = "Produsul a fost modificat cu succes!";
                             
+                            if (c.UploadedFile != null)
+                            {
+                                ChangePhoto(c.UploadedFile, id);
+                            }
+
                         }
 
                         return RedirectToAction("Index");
@@ -207,18 +304,18 @@ namespace The_Pet_Mansion.Controllers
 
                 else
                 {
-                    requestProduct.Categories = GetAllCategories();
-                    requestProduct.Animals = GetAllAnimals();
-                    return View(requestProduct);
+                    c.Product.Categories = GetAllCategories();
+                    c.Product.Animals = GetAllAnimals();
+                    return View(c);
 
                 }
             }
 
             catch (Exception e)
             {
-                requestProduct.Categories = GetAllCategories();
-                requestProduct.Animals = GetAllAnimals();
-                return View(requestProduct);
+                c.Product.Categories = GetAllCategories();
+                c.Product.Animals = GetAllAnimals();
+                return View(c);
             }
 
             
@@ -230,10 +327,12 @@ namespace The_Pet_Mansion.Controllers
         public ActionResult Delete (int id)
         { 
 
-           Product product = db.Products.Find(id);
+            Product product = db.Products.Find(id);
+            UploadFile file = db.UploadFiles.Find(id);
             if (product.UserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
             {
                 db.Products.Remove(product);
+                db.UploadFiles.Remove(file);
                 db.SaveChanges();
                 TempData["message"] = "Produsul a fost sters!";
                 return RedirectToAction("Index");

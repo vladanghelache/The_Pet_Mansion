@@ -1,54 +1,54 @@
-﻿@model The_Pet_Mansion.Models.Product
+﻿@model The_Pet_Mansion.Models.Class1
 
 @{
     ViewBag.Titlu = "New";
 }
 <h2>Adaugare produs</h2>
-@using (Html.BeginForm(actionName: "New", controllerName: "Products"))
+@using (Html.BeginForm("New", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
-    @Html.Label("ProductName", "Denumire produs")
+    @Html.Label("Product.ProductName", "Denumire produs")
     <br />
-    @Html.TextBox("ProductName", null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.ProductName, null, new { @class = "text-danger" })
+    @Html.TextBox("Product.ProductName", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Product.ProductName, null, new { @class = "text-danger" })
     <br /><br />
 
-    @Html.Label("Description", "Descriere produs")
+    @Html.Label("Product.Description", "Descriere produs")
     <br />
-    @Html.TextArea("Description", null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Description, null, new { @class = "text-danger" })
+    @Html.TextArea("Product.Description", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Product.Description, null, new { @class = "text-danger" })
     <br /><br />
 
-    @Html.Label("Price", "Pret produs")
+    @Html.Label("Product.Price", "Pret produs")
     <br />
-    @Html.TextBox("Price", 0, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Price, null, new { @class = "text-danger" })
+    @Html.TextBox("Product.Price", 0, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Product.Price, null, new { @class = "text-danger" })
     <br /><br />
 
-    @Html.Label("Stock", "Cantitate adaugata")
+    @Html.Label("Product.Stock", "Cantitate adaugata")
     <br />
-    @Html.TextBox("Stock", 0, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.Stock, null, new { @class = "text-danger" })
+    @Html.TextBox("Product.Stock", 0, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Product.Stock, null, new { @class = "text-danger" })
     <br /><br />
 
 
     @Html.Label("Selectati categoria")
-    @Html.DropDownListFor(m => m.CategoryID, new SelectList(Model.Categories, "Value", "Text"), "Selectati categoria", new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.CategoryID, null, new { @class = "text-danger" })
+    @Html.DropDownListFor(m => m.Product.CategoryID, new SelectList(Model.Product.Categories, "Value", "Text"), "Selectati categoria", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Product.CategoryID, null, new { @class = "text-danger" })
     <br /> <br />
     @Html.Label("Selectati animalul pentru care este destinat produsul")
-    @Html.DropDownListFor(m => m.AnimalID, new SelectList(Model.Animals, "Value", "Text"), "Selectati animalul", new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.AnimalID, null, new { @class = "text-danger" })
+    @Html.DropDownListFor(m => m.Product.AnimalID, new SelectList(Model.Product.Animals, "Value", "Text"), "Selectati animalul", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Product.AnimalID, null, new { @class = "text-danger" })
     <br />
     <br />
     if (User.IsInRole("Admin"))
     {
         @Html.Label("Selectati daca produsul poate fi vizibil utilizatorilor:")
-        @Html.DropDownListFor(m => m.Visible, new SelectList(new[]
+        @Html.DropDownListFor(m => m.Product.Visible, new SelectList(new[]
                   {
-                     
+
                       new SelectListItem { Value = "false", Text = "False" },
                       new SelectListItem { Value = "true", Text = "True" },
                   },
@@ -57,6 +57,12 @@
                   ),
            new { @class = "form-control" })
     }
+    <label>Alegeti un fisier</label>
+    <input type="file" name="UploadedFile" />
+
+    <br />
 
     <button class="btn btn-success" type="submit">Adauga produs</button>
 }
+
+ 
