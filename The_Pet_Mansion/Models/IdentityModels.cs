@@ -40,6 +40,7 @@ namespace The_Pet_Mansion.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
         public DbSet<CartLine> CartLines { get; set; }
+        public DbSet<UploadFile> UploadFiles { get; set; }
 
         public static ApplicationDbContext Create()
         {

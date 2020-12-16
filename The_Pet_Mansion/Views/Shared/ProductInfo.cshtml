@@ -2,6 +2,11 @@
 
 <div class="panel-heading"><strong>@Model.ProductName</strong></div>
 <div class="panel-body">
+
+    <div style="display: block; width: 50%; height: 250px;">
+        <img src="/Files/@Model.File.FileName" style="width: 100%; height: 250px; object-fit: cover" />
+    </div>
+    <br />
     <strong>Descriere produs: </strong>@Model.Description
     <br />
     <div class="pull-right">
@@ -10,7 +15,7 @@
         {
             <span class="glyphicon glyphicon-star"></span>
         }
-        @for (int i =(int) Model.AvgRating + 1; i <= 5; i++)
+        @for (int i = (int)Model.AvgRating + 1; i <= 5; i++)
         {
             <span class="glyphicon glyphicon-star-empty"></span>
         }
@@ -23,5 +28,19 @@
     <span class="label label-info">@Model.Stock Produse disponibile</span>
     <span class="label label-success">@Model.Date</span>
     <i class="glyphicon glyphicon-user"></i> <i>adaugat de</i> <strong> @Model.User.UserName </strong>
+    <br />
+    @if (User.IsInRole("Admin"))
+    {
+        if (Model.Visible)
+        {
+            <i class="glyphicon glyphicon-eye-open"></i><i>Vizibil</i>
+        }
+        else
+        {
+            <i class="glyphicon glyphicon-eye-close"></i><i>Invizibil</i>
+        }
+
+
+    }
 </div>
     <br />

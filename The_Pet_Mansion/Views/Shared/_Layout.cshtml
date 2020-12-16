@@ -23,7 +23,7 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Afisare produse", "Index", "Products")</li>
+                      
                         <li>@Html.ActionLink("Afisare categorii", "Index", "Categories")</li>
                         <li>@Html.ActionLink("Afisare utilizatori", "Index", "Users")</li>
                     }

@@ -1,59 +1,59 @@
 ﻿
-@model The_Pet_Mansion.Models.Product
+@model The_Pet_Mansion.Models.Class1
 
 <h2>Modificare produs</h2>
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Products"))
+@using (Html.BeginForm("Edit", "Products",FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HttpMethodOverride(HttpVerbs.Put)
 
     @Html.ValidationSummary(false, null, new { @class = "text-danger" })
 
-    @Html.Hidden("ProductID")
+    @Html.Hidden("Product.ProductID")
 
-    @Html.Label("ProductName", "Denumire Produs")
+    @Html.Label("Product.ProductName", "Denumire Produs")
     <br />
-    @Html.Editor("ProductName", new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(m => m.ProductName, null, new { @class = "text-danger" })
+    @Html.Editor("Product.ProductName", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Product.ProductName, null, new { @class = "text-danger" })
     <br /><br />
 
-    @Html.Label("Description", "Descriere produs")
+    @Html.Label("Product.Description", "Descriere produs")
     <br />
-    @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(m => m.Description, null, new { @class = "text-danger" })
+    @Html.EditorFor(m => m.Product.Description, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Product.Description, null, new { @class = "text-danger" })
     <br /><br />
-    @Html.Hidden("Date")
+    @Html.Hidden("Product.Date")
 
-    @Html.Label("Price", "Pret produs")
+    @Html.Label("Product.Price", "Pret produs")
     <br />
-    @Html.EditorFor(m => m.Price, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(m => m.Price, null, new { @class = "text-danger" })
+    @Html.EditorFor(m => m.Product.Price, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Product.Price, null, new { @class = "text-danger" })
     <br /><br />
 
-    @Html.Label("Stock", "Cantitate produs")
+    @Html.Label("Product.Stock", "Cantitate produs")
     <br />
-    @Html.EditorFor(m => m.Stock, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(m => m.Stock, null, new { @class = "text-danger" })
+    @Html.EditorFor(m => m.Product.Stock, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Product.Stock, null, new { @class = "text-danger" })
     <br /><br />
 
     @Html.Label("Selectati categoria")
 
-    @Html.DropDownListFor(m => m.CategoryID, new SelectList(Model.Categories, "Value", "Text"),
+    @Html.DropDownListFor(m => m.Product.CategoryID, new SelectList(Model.Product.Categories, "Value", "Text"),
         "Selectati categoria", new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.CategoryID, null, new { @class = "text-danger" })
+    @Html.ValidationMessageFor(m => m.Product.CategoryID, null, new { @class = "text-danger" })
     <br />
 
 
     @Html.Label("Selectati animalul caruia ii este destinat produsul")
-    @Html.DropDownListFor(m => m.AnimalID, new SelectList(Model.Animals, "Value", "Text"),
+    @Html.DropDownListFor(m => m.Product.AnimalID, new SelectList(Model.Product.Animals, "Value", "Text"),
         new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.AnimalID, null, new { @class = "text-danger" })
+    @Html.ValidationMessageFor(m => m.Product.AnimalID, null, new { @class = "text-danger" })
     <br />
 
     if (User.IsInRole("Admin"))
     {
         @Html.Label("Selectati daca produsul este vizibil pentru utilizatori")
-        @Html.DropDownListFor(m => m.Visible, new SelectList(new[]
+        @Html.DropDownListFor(m => m.Product.Visible, new SelectList(new[]
                         {
 
                        new SelectListItem { Value = "false", Text = "False" },
@@ -64,6 +64,11 @@
                         ),
                  new { @class = "form-control" })
     }
+
+    <label>Alegeti un fisier</label>
+    <input type="file" name="UploadedFile" />
+    
+    <br />
 
 
     <br />

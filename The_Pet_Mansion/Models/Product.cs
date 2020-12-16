@@ -31,6 +31,9 @@ namespace The_Pet_Mansion.Models
         [Required(ErrorMessage = "Tipul animalului trebuie selectat!")]
         public int AnimalID { get; set; }
         public string UserId { get; set; }
+        
+
+        
 
 
         public virtual ICollection <Review> Reviews { get; set; }
@@ -40,6 +43,7 @@ namespace The_Pet_Mansion.Models
         public virtual Category Category { get; set; }
         public virtual Animal Animal { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public virtual UploadFile File { get; set; }
 
         public IEnumerable<SelectListItem> Categories { get; set; }
         public IEnumerable<SelectListItem> Animals { get; set; }
