@@ -20,6 +20,7 @@ namespace The_Pet_Mansion.Models
         }
 
         public IEnumerable<SelectListItem> AllRoles { get; set; }
+        
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

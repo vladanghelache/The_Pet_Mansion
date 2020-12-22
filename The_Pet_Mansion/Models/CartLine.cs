@@ -11,10 +11,11 @@ namespace The_Pet_Mansion.Models
         [Key]
         public int CartLineID { get; set; }
         [Required]
-        public int CartID { get; set; }
+        public string CartID { get; set; }
         [Required]
         public int ProductID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Cantitatea este un camp obligatoriu!")]
+        [Range(1, int.MaxValue, ErrorMessage = "Cantitatea produsului trebuie sa fie cel putin egala cu 1!")]
         public int Quantity { get; set; }
 
         public virtual Cart Cart{ get; set; }

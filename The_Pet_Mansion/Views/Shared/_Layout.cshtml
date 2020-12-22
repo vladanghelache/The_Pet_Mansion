@@ -23,22 +23,39 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Admin"))
                     {
-                      
+
                         <li>@Html.ActionLink("Afisare categorii", "Index", "Categories")</li>
                         <li>@Html.ActionLink("Afisare utilizatori", "Index", "Users")</li>
+
+
+
                     }
-                   
-                    
-                        <li>@Html.ActionLink("Afisare produse", "Index", "Products")</li>
-                    
+
+
+                    <li>@Html.ActionLink("Afisare produse", "Index", "Products")</li>
+
 
                     @if (User.IsInRole("Editor") || User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Adaugare produs", "New", "Products")</li>
+                        <li><a class="pull-right" href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+
                     }
+
+                    @if (User.IsInRole("User"))
+                    {
+                        <li><a class="pull-right" href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+                    }
+
                 </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+                    @Html.Partial("_LoginPartial")
+
+
+
+               
+
+
+                </div>
         </div>
     </div>
     <div class="container body-content">

@@ -1,0 +1,19 @@
+﻿@model The_Pet_Mansion.Models.CartLine
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "CartLine"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+    <br />
+    @Html.HiddenFor(m => m.ProductID)
+    @Html.HiddenFor(m => m.CartID)
+    @Html.HiddenFor(m => m.CartLineID)
+
+    <br />
+    @Html.EditorFor(m => m.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Quantity, null, new { @class = "text-danger" })
+
+    <br />
+    <button class="btn btn-sm btn-success" type="submit">Editeaza cantitatea</button>
+}
+

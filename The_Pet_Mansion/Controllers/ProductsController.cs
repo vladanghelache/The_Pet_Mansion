@@ -220,6 +220,11 @@ namespace The_Pet_Mansion.Controllers
             db.SaveChanges();
             SetAccessRights();
 
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.Message = TempData["message"];
+            }
+
             return View(product);
         }
 

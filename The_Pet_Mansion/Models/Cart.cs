@@ -9,15 +9,9 @@ namespace The_Pet_Mansion.Models
 {
     public class Cart
     {
-        [Key]
-        public int CartID { get; set; }
+        [Key]        [ForeignKey("User")]        public string CartID { get; set; }
 
-        [Required]
-        public string UserID { get; set; }
-        
-        
+        public virtual ICollection<CartLine> CartLines { get; set; }        public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<CartLine> CartLines { get; set; }
-        public virtual ApplicationUser User { get; set; }
     }
 }

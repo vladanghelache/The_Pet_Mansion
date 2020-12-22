@@ -1,0 +1,12 @@
+﻿@model The_Pet_Mansion.Models.Cart
+
+@foreach (var cart in Model.CartLines)
+{
+    <h3>@cart.Product.ProductName</h3>
+    <h3>@cart.Quantity</h3>
+    <a class="btn btn-xs"  type="submit"  href="/CartLine/Edit/@cart.CartLineID">Modifica</a>
+}
+
+
+
+

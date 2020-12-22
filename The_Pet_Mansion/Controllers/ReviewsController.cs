@@ -35,7 +35,7 @@ namespace The_Pet_Mansion.Controllers
             {
 
                 TempData["message"] = "Nu aveti dreptul sa stergeti un review care nu va apartine!";
-                return RedirectToAction("Index");
+                return Redirect("/Products/Show/" + rev.ProductID);
 
             }
         }
@@ -106,7 +106,7 @@ namespace The_Pet_Mansion.Controllers
                     {
 
                         TempData["message"] = "Nu aveti dreptul sa editati un review care nu va apartine!";
-                        return RedirectToAction("Index");
+                        return Redirect("/Products/Show/" + rev.ProductID);
 
                     }
 
