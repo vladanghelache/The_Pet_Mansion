@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -12,21 +13,82 @@ namespace The_Pet_Mansion.Controllers
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private int _perPage = 3;
 
         // GET: Products
         //[Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Index()
         {
-            var products = db.Products.Include("Category").Include("Animal").Include("User").Include("File");
-            /*var files = from path in db.UploadFiles
-                        where 
-                        select path;            ViewBag.Files = files;
-            */
-            ViewBag.Products = products;
+            //var sort = "";
+            var products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
+
+                 if (Request.Params.Get("Sort") == "2")
+                {
+                    products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.Price);
+                }
+
+            else
+                if (Request.Params.Get("Sort") == "3")
+            {
+                products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.AvgRating);
+            }
+                 else
+                 if (Request.Params.Get("Sort") == "4")
+            {
+                products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.AvgRating);
+            }
+
+
+
+
+                /*var files = from path in db.UploadFiles
+                            where 
+                            select path;            ViewBag.Files = files;
+                */
+                var search = "";
+            if(Request.Params.Get("search") != null)
+            {
+                search = Request.Params.Get("search").Trim();
+                List<int> productsIds = db.Products.Where(
+                    pr => pr.ProductName.Contains(search)
+                    ).Select(p => p.ProductID).ToList();
+                products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
+                if (Request.Params.Get("Sort") == "2")
+                {
+                    products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.Price);
+                }
+
+                else
+               if (Request.Params.Get("Sort") == "3")
+                {
+                    products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.AvgRating);
+                }
+                else
+                if (Request.Params.Get("Sort") == "4")
+                {
+                    products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.AvgRating);
+                }
+            }
+           
+            var totalItems = products.Count();
+            var currentPage = Convert.ToInt32(Request.Params.Get("page"));
+            var offset = 0;
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * this._perPage;
+            }
+            var paginatedProducts = products.Skip(offset).Take(this._perPage);
+           
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.Message = TempData["message"];
             }
+            ViewBag.perPage = this._perPage;
+            ViewBag.total = totalItems;
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
+            ViewBag.Products = paginatedProducts;
+            ViewBag.SearchString = search;
+            ViewBag.sort = Request.Params.Get("Sort");
             return View();
         }
 
