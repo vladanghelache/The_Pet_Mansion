@@ -89,5 +89,16 @@ namespace The_Pet_Mansion.Controllers
 
         }
 
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            CartLine cart = db.CartLines.Find(id);
+            db.CartLines.Remove(cart);
+            db.SaveChanges();
+            TempData["message"] = "Produsul a fost eliminat din cos!";
+            return Redirect("/Cart/Show1/");
+        }
+
     }
 }
