@@ -9,15 +9,14 @@ namespace The_Pet_Mansion.Models
 {
     public class Cart
     {
-        [Key]
-        public int CartID { get; set; }
+        [Key]        [ForeignKey("User")]        public string CartID { get; set; }
+       
+        public string Address { get; set; }
+        [MinLength(10,ErrorMessage ="Numarul trebuie sa contina 10 cifre!")][MaxLength(10, ErrorMessage = "Numarul trebuie sa contina 10 cifre!")]
 
-        [Required]
-        public string UserID { get; set; }
-        
-        
+        public string PhoneNumber { get; set; }
 
-        public virtual ICollection<CartLine> CartLines { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual ICollection<CartLine> CartLines { get; set; }        public virtual ApplicationUser User { get; set; }
+
     }
 }

@@ -1,0 +1,20 @@
+﻿@model The_Pet_Mansion.Models.Cart
+
+    <h1>@ViewBag.Message</h1>
+
+@foreach (var cart in Model.CartLines)
+{
+    <h3>@cart.Product.ProductName</h3>
+    <h3>@cart.Quantity</h3>
+    <a class="btn btn-xs" type="submit" href="/CartLine/Edit/@cart.CartLineID">Modifica</a>
+    <form method="post" action="/CartLine/Delete/@cart.CartLineID">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button class="glyphicon glyphicon-trash" style="border: none; background: transparent" type="submit">Elimina din cos</button>
+    </form>
+}
+
+<a class="btn btn-xs" type="submit" href="/Cart/Edit/@Model.CartID">Trimite comanda</a>
+
+
+
+

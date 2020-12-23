@@ -1,0 +1,26 @@
+﻿
+@model The_Pet_Mansion.Models.Cart
+
+<h2>Modificare informatii comanda</h2>
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Cart"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+    <br />
+    @Html.HiddenFor(m => m.CartID)
+
+    @Html.Label("Address", "Adresa")
+    <br />
+    @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.Address, null, new { @class = "text-danger" })
+
+    <br />
+    @Html.Label("PhoneNumber", "Numar de telefon")
+    <br />
+    @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.PhoneNumber, null, new { @class = "text-danger" })
+
+
+    <button class="btn btn-sm btn-success" type="submit">Editeaza informatiile</button>
+}

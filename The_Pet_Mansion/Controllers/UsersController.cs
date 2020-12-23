@@ -129,7 +129,7 @@ namespace The_Pet_Mansion.Controllers
             {
                 db.Orders.Remove(order);
             }
-            var carts = db.Carts.Where(car => car.UserID == id);
+            var carts = db.Carts.Where(car => car.CartID == id);
             foreach (var cart in carts)
             {
                 db.Carts.Remove(cart);
