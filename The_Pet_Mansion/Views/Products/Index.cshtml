@@ -1,54 +1,76 @@
 ﻿
 <h2>Produse</h2>
 <h1>@ViewBag.Message</h1>
+<script type="text/javascript">
+    function changeValue() {
+        $("#form").submit();
+    }
 
-<form class="card card-sm" method="GET">
-    @Html.Label("Ordoneaza dupa:")
-    @Html.DropDownList("Sort", new List<SelectListItem>
-        {
-        new SelectListItem{ Text="Pret crescator", Value = "1" },
-        new SelectListItem{ Text="Pret descrescator", Value = "2" },
-        new SelectListItem{ Text="Rating crescator", Value = "3" },
-        new SelectListItem{ Text="Rating descrescator", Value = "4" }
-        })
-    <button type="submit">Selecteaza</button>
-</form>
+</script>
 
 
 
 
+
+<br />
+<div class="container">
     <br />
-    <div class="container">
-        <br />
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
-                <form class="card card-sm" method="GET">
-                    <div class="card-body row no-gutters align-items-center">
-                        <div class="col-auto">
-                            <i class="fas fa-search h4 text-body"></i>
-                        </div>
-                        <!--end of col-->
-                        <div class="col">
-                            <input class="form-control form-control-lg form-control-borderless" type="text" name="search" value="@ViewBag.SearchString"
-                                   placeholder="Search topics or keywords">
-                        </div>
-                        <!--end of col-->
-                        <div class="col-auto">
-                            <button class="btn btn-lg btn-success" type="submit">Search</button>
-                        </div>
-                        <!--end of col-->
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <form id="form" class="card card-sm" method="GET">
+                @Html.Label("Ordoneaza dupa:")
+                @Html.DropDownList("Sort", new List<SelectListItem>
+                    {
+                    new SelectListItem{ Text="Pret crescator", Value = "1" },
+                    new SelectListItem{ Text="Pret descrescator", Value = "2" },
+                    new SelectListItem{ Text="Rating crescator", Value = "3" },
+                    new SelectListItem{ Text="Rating descrescator", Value = "4" }
+                    },new { onchange="changeValue()"})
+               
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body"></i>
                     </div>
-                </form>
-            </div>
-            <!--end of col-->
+                    <!--end of col-->
+                    <div class="col">
+                        <input class="form-control form-control-lg form-control-borderless" type="text" name="search" value="@ViewBag.SearchString"
+                               placeholder="Search topics or keywords">
+                    </div>
+                    <!--end of col-->
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                    </div>
+                    <!--end of col-->
+                </div>
+            </form>
         </div>
+        <!--end of col-->
     </div>
-    <div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li>
-                    @if (ViewBag.search != "")
-                    {<a href="/Products/Index?page=1&search=@ViewBag.SearchString" aria-label="Previous">
+</div>
+<div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                @if (ViewBag.search != "")
+                {
+                    if (ViewBag.sort != "")
+                    {
+                        <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Sort=@ViewBag.sort" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Products/Index?page=1&search=@ViewBag.SearchString" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    }
+                }
+                else
+                {
+                    if (ViewBag.sort != "")
+                    {
+                        <a href="/Products/Index?page=1&Sort=@ViewBag.sort" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     }
@@ -58,51 +80,98 @@
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     }
-                </li>
-                @for (int i = 1; i <= ViewBag.lastPage; i++)
-                {
-                    if (ViewBag.search != "")
+
+                }
+            </li>
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li>
+                    @if (ViewBag.search != "")
                     {
-                        <li><a href="/Products/Index?page=@i&search=@ViewBag.SearchString">@(i)</a></li>
+                        if (ViewBag.sort != "")
+                        {
+                            <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort">
+                                @(i)
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products/Index?page=@i&search=@ViewBag.SearchString">
+                                @(i)
+                            </a>
+                        }
                     }
                     else
                     {
-                        <li><a href="/Products/Index?page=@i">@(i)</a></li>
+                        if (ViewBag.sort != "")
+                        {
+                            <a href="/Products/Index?page=@i&Sort=@ViewBag.sort">
+                                @(i)
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products/Index?page=@i">
+                                @(i)
+                            </a>
+                        }
+
                     }
-                }
-                <li>
-                    @if (ViewBag.search != "")
+                </li>
+            }
+            <li>
+                @if (ViewBag.search != "")
+                {
+                    if (ViewBag.sort != "")
+                    {
+                        <a href="/Products/Index?page=@(ViewBag.lastPage)&search=@ViewBag.SearchString&Sort=@ViewBag.sort" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    }
+                    else
                     {
                         <a href="/Products/Index?page=@(ViewBag.lastPage)&search=@ViewBag.SearchString" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     }
-                    else
-                    { <a href="/Products/Index?page=@(ViewBag.lastPage)" aria-label="Next">
+                }
+                else
+                {
+                    if (ViewBag.sort != "")
+                    {
+                        <a href="/Products/Index?page=@(ViewBag.lastPage)&Sort=@ViewBag.sort" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     }
-                </li>
-            </ul>
-        </nav>
-    </div>
+                    else
+                    {
+                        <a href="/Products/Index?page=@(ViewBag.lastPage)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    }
+
+                }
+            </li>
+        </ul>
+    </nav>
+</div>
 
 
-    @foreach (The_Pet_Mansion.Models.Product product in ViewBag.Products)
+@foreach (The_Pet_Mansion.Models.Product product in ViewBag.Products)
+{
+
+    if (product.Visible || User.IsInRole("Admin"))
     {
-
-        if (product.Visible || User.IsInRole("Admin"))
-        {
-            <div class="panel panel-default">
-                @Html.Partial("ProductInfo", product)
-                <div class="panel-footer">
-                    <a class="btn btn-sm btn btn-success" href="/Products/Show/@product.ProductID">
-                        Afisare produs
-                    </a>
-                </div>
+        <div class="panel panel-default">
+            @Html.Partial("ProductInfo", product)
+            <div class="panel-footer">
+                <a class="btn btn-sm btn btn-success" href="/Products/Show/@product.ProductID">
+                    Afisare produs
+                </a>
             </div>
-        }
+        </div>
     }
+}
 
 
 
