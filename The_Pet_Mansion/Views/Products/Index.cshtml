@@ -26,7 +26,7 @@
                     new SelectListItem{ Text="Rating crescator", Value = "3" },
                     new SelectListItem{ Text="Rating descrescator", Value = "4" }
                     },new { onchange="changeValue()"})
-               
+
                 <div class="card-body row no-gutters align-items-center">
                     <div class="col-auto">
                         <i class="fas fa-search h4 text-body"></i>
@@ -157,21 +157,23 @@
 </div>
 
 
-@foreach (The_Pet_Mansion.Models.Product product in ViewBag.Products)
-{
+<div class="container-fluid px-sm-1 py-5 mx-auto">
+    <div class="row ">
+        <div class="d-flex flex-row">
+            @foreach (The_Pet_Mansion.Models.Product product in ViewBag.Products)
+            {
 
-    if (product.Visible || User.IsInRole("Admin"))
-    {
-        <div class="panel panel-default">
-            @Html.Partial("ProductInfo", product)
-            <div class="panel-footer">
-                <a class="btn btn-sm btn btn-success" href="/Products/Show/@product.ProductID">
-                    Afisare produs
-                </a>
-            </div>
+                if (product.Visible || User.IsInRole("Admin"))
+                {
+
+                    @Html.Partial("ProductPreview", product)
+                }
+            }
         </div>
-    }
-}
+    </div>
+</div>
+
+
 
 
 

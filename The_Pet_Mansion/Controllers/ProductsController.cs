@@ -13,7 +13,7 @@ namespace The_Pet_Mansion.Controllers
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private int _perPage = 3;
+        private int _perPage = 5;
 
         // GET: Products
         //[Authorize(Roles = "User,Editor,Admin")]
@@ -165,7 +165,7 @@ namespace The_Pet_Mansion.Controllers
             c.Product.UserId = User.Identity.GetUserId();
             try
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && c.UploadedFile != null)
                 {
                     db.Products.Add(c.Product);
                     db.SaveChanges();
@@ -201,7 +201,7 @@ namespace The_Pet_Mansion.Controllers
             string uploadedFileExtension = Path.GetExtension(uploadedFileName);
 
             // Se poate verifica daca extensia este intr-o lista dorita
-            if (uploadedFileExtension == ".png" || uploadedFileExtension == ".jpg" || uploadedFileExtension == ".pdf")
+            if (uploadedFileExtension == ".png" || uploadedFileExtension == ".jpg" || uploadedFileExtension == ".jpeg")
             {
                 // Se stocheaza fisierul in folderul Files (folderul trebuie creat in proiect)
 

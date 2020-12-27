@@ -1,0 +1,47 @@
+﻿
+<div class="card" style="width: 25rem; height: 45rem; border: solid thin; margin:10px 10px 10px 10px ">
+    <img class="card-img-top" src="/Files/@Model.File.FileName" alt="Card image cap" style="width: 70%; height: auto; margin-left: auto; margin-right: auto; display: block">
+    <div class="card-body" style=" text-align: center; ">
+        <h5 class="card-title" style=" padding:0px 30px 0px 30px; text-align:center; ">
+        @{ 
+            int nr = 0;
+
+            foreach (string word in Model.ProductName.Split(' '))
+            {
+                nr = nr + word.Length+1;
+                if (nr > 65)
+                {
+                    break;
+                }
+                string sp = " ";
+                @word
+                @sp
+                }
+         }
+        </h5>
+        <div class="show-rating">
+            <p class="card-text">Rating: @Math.Round(@Model.AvgRating, 2) /5</p>
+            <div>
+                @for (int i = 1; i <= Model.AvgRating; i++)
+                {
+                    <span class="glyphicon glyphicon-star"></span>
+                }
+                @for (int i = (int)Model.AvgRating + 1; i <= 5; i++)
+                {
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                }
+            </div>
+        </div>
+       
+        <p class="card-text">@Model.Price Lei</p>
+        <form method="post" action="/CartLine/New">
+
+
+            <input type="hidden" name="ProductID" value="@Model.ProductID" />
+
+            <div class="wrapper">
+            <button class="btn btn-primary " type="submit"><i class="glyphicon glyphicon-shopping-cart"></i> Adauga in cos</button>
+            </div>
+        </form>
+    </div>
+</div>

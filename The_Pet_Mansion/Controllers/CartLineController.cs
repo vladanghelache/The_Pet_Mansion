@@ -32,7 +32,7 @@ namespace The_Pet_Mansion.Controllers
                     db.CartLines.Add(cart);
                     db.SaveChanges();
                     TempData["message"] = "Produsul a fost adaugat in cos!";
-                    return Redirect("/Products/Show/" + cart.ProductID);
+                    return Redirect("/Products/Index/");
 
 
                 }

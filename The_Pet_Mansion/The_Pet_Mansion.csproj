@@ -274,6 +274,7 @@
     <Content Include="Views\Cart\Show.cshtml" />
     <Content Include="Views\CartLine\Edit.cshtml" />
     <Content Include="Views\Cart\Edit.cshtml" />
+    <Content Include="Views\Shared\ProductPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
