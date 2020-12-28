@@ -5,10 +5,30 @@
     function changeValue() {
         
         $("#search").val('@ViewBag.SearchString');
+        $("#cat").val('@ViewBag.category');
+        $("#anim").val('@ViewBag.animal');
+        $("#form").submit();
+    }
+
+    function changeValue2() {
+        
+        $("#search").val('@ViewBag.SearchString');
+        $("#sort").val('@ViewBag.sort');
+        $("#anim").val('@ViewBag.animal');
+        $("#form").submit();
+    }
+
+    function changeValue3() {
+        
+        $("#search").val('@ViewBag.SearchString');
+        $("#cat").val('@ViewBag.category');
+        $("#sort").val('@ViewBag.sort');
         $("#form").submit();
     }
 
 </script>
+
+
 
 
 
@@ -27,10 +47,10 @@
                     new SelectListItem{ Text="Pret descrescator", Value = "2" },
                     new SelectListItem{ Text="Rating crescator", Value = "3" },
                     new SelectListItem{ Text="Rating descrescator", Value = "4" }
-                    },new { onchange="changeValue()"})
+                    }, new { @id = "sort", @class = "form-control", onchange = "changeValue()" })
 
-                @Html.DropDownList("Categorii", new SelectList(ViewBag.Categories, "Value", "Text"), "Selectati categoria", new { @class = "form-control" })
-                @Html.DropDownList("Animale", new SelectList(ViewBag.Animals, "Value", "Text"), "Selectati specia", new { @class = "form-control" })
+                @Html.DropDownList("Categorii", new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.category ), "Selectati categoria", new { @id = "cat", @class = "form-control", onchange = "changeValue2()" })
+                @Html.DropDownList("Animale", new SelectList(ViewBag.Animals, "Value", "Text", ViewBag.animal), "Selectati specia", new { @id = "anim", @class = "form-control", onchange = "changeValue3()" })
 
                 <div class="card-body row no-gutters align-items-center">
                     <div class="col-auto">

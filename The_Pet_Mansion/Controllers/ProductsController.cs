@@ -36,7 +36,7 @@ namespace The_Pet_Mansion.Controllers
                 animal = Request.Params.Get("Animale");
             }
             var q = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
-      
+            
 
             if(category =="" && animal=="")
             {
@@ -54,9 +54,14 @@ namespace The_Pet_Mansion.Controllers
                 products = q.Where(x => x.CategoryID.ToString() ==category);
             }
                else
-
+            {
                 products = q.Where(x => x.AnimalID.ToString() == animal).Where(x => x.CategoryID.ToString() == category);
+            }
 
+            if (User.IsInRole("Admin") == false)
+            {
+                products = products.Where(x => x.Visible);
+            }
 
             if (sort == "2")
                 {
