@@ -51,6 +51,7 @@ namespace The_Pet_Mansion.Controllers
         public ActionResult Edit(int id)
         {
            CartLine cart = db.CartLines.Find(id);
+           
             return View(cart);
 
         }
@@ -66,9 +67,22 @@ namespace The_Pet_Mansion.Controllers
                     CartLine cart = db.CartLines.Find(id);
                     if (TryUpdateModel(cart))
                     {
-                        cart = requestCartLine;
-                        db.SaveChanges();
-                        return Redirect("/Cart/Show/"+cart.CartID);
+                        if(requestCartLine.Quantity <= cart.Product.Stock)
+                        {
+                            cart = requestCartLine;
+                            db.SaveChanges();
+                            return Redirect("/Cart/Show/" + cart.CartID);
+                        }
+                        else
+                        {
+                            TempData["message"] = "Nu sunt suficiente produse in stoc!";
+                            if (TempData.ContainsKey("message"))
+                            {
+                                ViewBag.Message = TempData["message"];
+                            }
+                            return View(requestCartLine);
+                        }
+                       
                     }
                     else
                     {

@@ -15,11 +15,38 @@ namespace The_Pet_Mansion.Controllers
         // GET: Orders
         public ActionResult Index()
         {
+
+
             return View();
         }
 
+        //show pentru afisarea tuturor comenzilor unui utilizator
+        public ActionResult Show(string Id)
+        {
+            var orders = (from x in db.Orders
+                         where x.UserID == Id
+                         select x).ToList();
+            ViewBag.Orders = orders;
+            return View();
+        }
+
+        public ActionResult Show_redirect()
+        {
+            string UserId = User.Identity.GetUserId();
+            return Redirect("/Orders/Show/" + UserId);
+        }
+
+        //show pentru afisarea unei comenzi cu Id-ul dat ca parametru
+        public ActionResult Show_order(int Id)
+        {
+            Order order = db.Orders.Find(Id);
+            return View(order);
+        }
+
+
         
-        //[Authorize(Roles = "Admin,Editor,User")]
-       
+
+
     }
+    
 }

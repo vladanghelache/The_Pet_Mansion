@@ -19,6 +19,7 @@ namespace The_Pet_Mansion.Models
         [MaxLength(10, ErrorMessage = "Numarul trebuie sa contina 10 cifre!")]
         [Required(ErrorMessage = "Numarul de telefon e obligatoriu!")]
         public string PhoneNumber { get; set; }
+        public float TotalPrice { get; set; }
 
         public virtual ICollection<OrderLine> OrderLines { get; set; }
         public virtual ApplicationUser User { get; set; }

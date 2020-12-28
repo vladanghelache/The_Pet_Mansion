@@ -1,0 +1,10 @@
+﻿@model The_Pet_Mansion.Models.Order
+
+@foreach(var ord in Model.OrderLines)
+{
+    <p>@ord.Product.ProductName</p>
+    <p>@ord.Quantity</p>
+    <p>@(ord.Product.Price * ord.Quantity)</p>
+    <br /><br />
+}
+

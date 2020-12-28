@@ -13,33 +13,65 @@ namespace The_Pet_Mansion.Controllers
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private int _perPage = 5;
+        private int _perPage = 16;
+        private IQueryable<Product> products;
 
         // GET: Products
         //[Authorize(Roles = "User,Editor,Admin")]
         public ActionResult Index()
         {
             var sort = "";
+            var category = "";
+            var animal = "";
             if (Request.Params.Get("Sort") != null)
             {
                 sort = Request.Params.Get("Sort");
             }
-            var products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
+            if (Request.Params.Get("Categorii") != null)
+            {
+               category = Request.Params.Get("Categorii");
+            }
+            if (Request.Params.Get("Animale") != null)
+            {
+                animal = Request.Params.Get("Animale");
+            }
+            var q = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
+      
 
-                 if (sort == "2")
+            if(category =="" && animal=="")
+            {
+                products = q;
+            }
+            else
+
+            if(category=="")
+            {
+                products = q.Where(x => x.AnimalID.ToString() == animal);
+            }
+            else
+                if(animal=="")
+            {
+                products = q.Where(x => x.CategoryID.ToString() ==category);
+            }
+               else
+
+                products = q.Where(x => x.AnimalID.ToString() == animal).Where(x => x.CategoryID.ToString() == category);
+
+
+            if (sort == "2")
                 {
-                    products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.Price);
+                    products = products.OrderByDescending(a => a.Price);
                 }
 
             else
                 if (sort == "3")
             {
-                products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.AvgRating);
+                products = products.OrderBy(a => a.AvgRating);
             }
                  else
                  if (sort == "4")
             {
-                products = db.Products.Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.AvgRating);
+                products =products.OrderByDescending(a => a.AvgRating);
             }
 
 
@@ -54,24 +86,24 @@ namespace The_Pet_Mansion.Controllers
             if(Request.Params.Get("search") != null)
             {
                 search = Request.Params.Get("search").Trim();
-                List<int> productsIds = db.Products.Where(
+                List<int> productsIds = products.Where(
                     pr => pr.ProductName.Contains(search)
                     ).Select(p => p.ProductID).ToList();
-                products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
+                products = products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.Price);
                 if (sort == "2")
                 {
-                    products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.Price);
+                    products = products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.Price);
                 }
 
                 else
                if (sort == "3")
                 {
-                    products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.AvgRating);
+                    products = products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderBy(a => a.AvgRating);
                 }
                 else
                 if (sort == "4")
                 {
-                    products = db.Products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.AvgRating);
+                    products = products.Where(product => productsIds.Contains(product.ProductID)).Include("Category").Include("Animal").Include("User").Include("File").OrderByDescending(a => a.AvgRating);
                 }
             }
            
@@ -94,6 +126,10 @@ namespace The_Pet_Mansion.Controllers
             ViewBag.Products = paginatedProducts;
             ViewBag.SearchString = search;
             ViewBag.sort = sort;
+            ViewBag.Animals = GetAllAnimals();
+            ViewBag.Categories = GetAllCategories();
+            ViewBag.animal = animal;
+            ViewBag.category = category;
             return View();
         }
 

@@ -29,6 +29,9 @@
                     new SelectListItem{ Text="Rating descrescator", Value = "4" }
                     },new { onchange="changeValue()"})
 
+                @Html.DropDownList("Categorii", new SelectList(ViewBag.Categories, "Value", "Text"), "Selectati categoria", new { @class = "form-control" })
+                @Html.DropDownList("Animale", new SelectList(ViewBag.Animals, "Value", "Text"), "Selectati specia", new { @class = "form-control" })
+
                 <div class="card-body row no-gutters align-items-center">
                     <div class="col-auto">
                         <i class="fas fa-search h4 text-body"></i>
@@ -57,101 +60,479 @@
                 {
                     if (ViewBag.sort != "")
                     {
-                        <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Sort=@ViewBag.sort" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Sort=@ViewBag.sort" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+
                     }
+
                     else
                     {
-                        <a href="/Products/Index?page=1&search=@ViewBag.SearchString" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Categorii=@ViewBag.category" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&search=@ViewBag.SearchString" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
                     }
                 }
                 else
                 {
                     if (ViewBag.sort != "")
                     {
-                        <a href="/Products/Index?page=1&Sort=@ViewBag.sort" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="/Products/Index?page=1" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&Sort=@ViewBag.sort&Categorii=@ViewBag.category" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&Sort=@ViewBag.sort&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&Sort=@ViewBag.sort" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+
                     }
 
+                    else
+                    {
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1&Categorii=@ViewBag.category" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=1&Animale=@ViewBag.animal" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            }
+                        }
+                    }
                 }
             </li>
             @for (int i = 1; i <= ViewBag.lastPage; i++)
             {
-                <li>
-                    @if (ViewBag.search != "")
-                    {
-                        if (ViewBag.sort != "")
-                        {
-                            <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort">
-                                @(i)
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="/Products/Index?page=@i&search=@ViewBag.SearchString">
-                                @(i)
-                            </a>
-                        }
-                    }
-                    else
-                    {
-                        if (ViewBag.sort != "")
-                        {
-                            <a href="/Products/Index?page=@i&Sort=@ViewBag.sort">
-                                @(i)
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="/Products/Index?page=@i">
-                                @(i)
-                            </a>
-                        }
-
-                    }
-                </li>
-            }
             <li>
                 @if (ViewBag.search != "")
                 {
                     if (ViewBag.sort != "")
                     {
-                        <a href="/Products/Index?page=@(ViewBag.lastPage)&search=@ViewBag.SearchString&Sort=@ViewBag.sort" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal">
+                                    @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category">  
+                                    @(i)
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Animale=@ViewBag.animal" >
+                                  @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort" >
+                                  @(i)
+                                </a>
+                            }
+                        }
+
                     }
+
                     else
                     {
-                        <a href="/Products/Index?page=@(ViewBag.lastPage)&search=@ViewBag.SearchString" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Categorii=@ViewBag.category&Animale=@ViewBag.animal" >
+                                    @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Categorii=@ViewBag.category" >
+                                   @(i)
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Animale=@ViewBag.animal" >
+                                    @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString" >
+                                  @(i)
+                                </a>
+                            }
+                        }
                     }
                 }
                 else
                 {
                     if (ViewBag.sort != "")
                     {
-                        <a href="/Products/Index?page=@(ViewBag.lastPage)&Sort=@ViewBag.sort" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="/Products/Index?page=@(ViewBag.lastPage)" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal" >
+                                    @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Categorii=@ViewBag.category">
+                                   @(i)
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Animale=@ViewBag.animal" >
+                                   @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort" >
+                                   @(i)
+                                </a>
+                            }
+                        }
+
                     }
 
+                    else
+                    {
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&Categorii=@ViewBag.category&Animale=@ViewBag.animal" >
+                                   @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i&Categorii=@ViewBag.category" >
+                                  @(i)
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@i&Animale=@ViewBag.animal" >
+                                    @(i)
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@i" >
+                                   @(i)
+                                </a>
+                            }
+                        }
+                    }
+                }
+            </li>
+            }
+
+
+
+            <li>
+                @if (ViewBag.search != "")
+                {
+                    if (ViewBag.sort != "")
+                    {
+
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Sort=@ViewBag.sort" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+
+                    }
+
+                    else
+                    {
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Categorii=@ViewBag.category" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&search=@ViewBag.SearchString" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (ViewBag.sort != "")
+                    {
+
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Sort=@ViewBag.sort&Categorii=@ViewBag.category" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Sort=@ViewBag.sort&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Sort=@ViewBag.sort" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+
+                    }
+
+                    else
+                    {
+                        if (ViewBag.category != "")
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Categorii=@ViewBag.category&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Categorii=@ViewBag.category" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+
+                        else
+                        {
+                            if (ViewBag.animal != "")
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage&Animale=@ViewBag.animal" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a href="/Products/Index?page=@ViewBag.lastPage" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            }
+                        }
+                    }
                 }
             </li>
         </ul>

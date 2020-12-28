@@ -41,12 +41,14 @@
                     {
                         <li>@Html.ActionLink("Adaugare produs", "New", "Products")</li>
                         <li><a class="pull-right" href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+                        <li><a class="pull-right" href="/Orders/Show_redirect">Comenzile tale</a></li>
 
                     }
 
                     @if (User.IsInRole("User"))
                     {
                         <li><a class="pull-right" href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+                        <li><a class="pull-right" href="/Orders/Show_redirect">Comenzile tale</a></li>
                     }
 
                 </ul>

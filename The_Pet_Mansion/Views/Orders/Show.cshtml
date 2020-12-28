@@ -1,0 +1,15 @@
+﻿@model The_Pet_Mansion.Models.Order
+
+
+<h2>Show</h2>
+
+@foreach(var order in ViewBag.Orders)
+{
+
+    <h3>Comanda cu numarul: @order.OrderID</h3>
+    <h4>Data: @order.Date</h4>
+    <h4>@order.TotalPrice</h4>
+    <a href="/Orders/Show_order/@order.OrderID">Detalii comanda</a>
+    <br /><br />
+}
+

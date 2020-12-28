@@ -122,16 +122,22 @@ namespace The_Pet_Mansion.Controllers
                 db.Orders.Add(order);
                 db.SaveChanges();
 
+               float total_price = 0;
+
                 foreach (var x in cart.CartLines)
                 {
                     OrderLine orderLine = new OrderLine();
                     orderLine.OrderID = order.OrderID;
                     orderLine.ProductID = x.ProductID;
                     orderLine.Quantity = x.Quantity;
+                    x.Product.Stock = x.Product.Stock - x.Quantity;
+                    total_price = total_price + (x.Product.Price * x.Quantity);
                     db.OrderLines.Add(orderLine);
                     db.SaveChanges();
 
                 }
+                order.TotalPrice = total_price;
+                db.SaveChanges();
 
                 int n = cart.CartLines.Count();
                 while( n-- > 0 )

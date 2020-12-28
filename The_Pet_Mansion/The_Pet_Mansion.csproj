@@ -275,12 +275,13 @@
     <Content Include="Views\CartLine\Edit.cshtml" />
     <Content Include="Views\Cart\Edit.cshtml" />
     <Content Include="Views\Shared\ProductPreview.cshtml" />
+    <Content Include="Views\Orders\Show.cshtml" />
+    <Content Include="Views\Orders\Show_order.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\" />
     <Folder Include="Views\FileUpload\" />
-    <Folder Include="Views\Orders\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
