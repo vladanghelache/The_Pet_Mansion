@@ -28,10 +28,11 @@ textarea {
 .d-flex {
     
     background-color: aquamarine;
-    
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
 }
+
 .wrapper {
     text-align: center;
     vertical-align: bottom;
@@ -47,3 +48,36 @@ textarea {
     text-align: center;
 }
 
+.parent{
+    position: relative;
+    padding-top: 20px;
+}
+.card-footer{
+    position: absolute;
+    bottom: 20px;
+    left:59px;
+    right:auto;
+}
+
+.title {
+    position: absolute;
+    top: 220px;
+    width: 100%;
+    
+}
+.card-title {
+    font-weight: 600;
+}
+.price {
+    color: #cc0000;
+    font-size: x-large;
+    font-weight: 500;
+}
+
+.gold-star{
+    color: gold;
+}
+
+.grey-star{
+    color: gray;
+}
