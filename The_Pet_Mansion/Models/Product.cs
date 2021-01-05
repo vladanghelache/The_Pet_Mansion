@@ -17,7 +17,7 @@ namespace The_Pet_Mansion.Models
         [Required(ErrorMessage = "Descrierea produsului este obligatorie!")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Cantitatea produsului trebuie sa fie specificata!")]
-        [Range(1, int.MaxValue, ErrorMessage = "Cantitatea produsului trebuie sa fie cel putin egala cu 1!")]
+        [Range(0, int.MaxValue, ErrorMessage = "Cantitatea produsului trebuie sa fie un numar pozitiv!")]
         public int Stock { get; set; }
         [Required(ErrorMessage = "Pretul produsului trebuie sa fie specificat!")]
         [Range(0.05, float.MaxValue, ErrorMessage = "Pretul produsului trebuie sa fie cel putin egal cu 0.05!")]

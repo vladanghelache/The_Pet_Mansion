@@ -1,46 +1,128 @@
-﻿
+﻿<div class="tot">
+    <div class="panel-heading" style="float:right; width:60%; ">
+        <p class="title1">@Model.ProductName</p>
+        <div class="buy">
+            <br /><br />
+            <p>Rating: @Math.Round(@Model.AvgRating, 2) /5</p>
+            @for (int i = 1; i <= Model.AvgRating; i++)
+            {
+                <span class="glyphicon glyphicon-star gold-star"></span>
+            }
+            @for (int i = (int)Model.AvgRating + 1; i <= 5; i++)
+            {
+                <span class="glyphicon glyphicon-star-empty grey-star"></span>
+            }
 
-<div class="panel-heading"><strong>@Model.ProductName</strong></div>
-<div class="panel-body">
+            <br /> <br />
+            <strong class="price">@Model.Price Lei</strong>
+            <br /> <br />
+            @if (Model.Stock > 0)
+            {
+                <span class="label label-success">in stoc</span>
+                <br /> <br />
+                <form method="post" action="/CartLine/New">
 
-    <div style="display: block; width: 50%; height: 250px;">
-        <img src="/Files/@Model.File.FileName" style="width: 100%; height: 250px; object-fit: cover" />
+
+                    <input type="hidden" name="ProductID" value="@Model.ProductID" />
+
+
+                    <button class="btn btn-primary" type="submit" style="background-color:#134074"><i class="glyphicon glyphicon-shopping-cart"></i> Adauga in cos</button>
+
+
+
+                </form>
+            }
+            else
+            {
+                <span class="label label-danger">Produs indisponibil!</span>
+            }
+
+
+        </div>
+        <div style="width:50%; ">
+
+            <br /> <br />
+            <strong>Descriere produs: </strong>
+            @{
+                int nr = 0;
+
+                foreach (string word in Model.Description.Split(' '))
+                {
+                    nr = nr + word.Length + 1;
+                    if (nr > 265)
+                    {
+                        <a href="#description" onclick="document.getElementById('description').style.display ='inline'">Vezi toata descrierea</a>
+                        break;
+                    }
+                    string sp = " ";
+                    @word
+                    @sp
+                }
+            }
+            <br />
+            <br />
+
+            <br />
+
+            <i class="glyphicon glyphicon-tags"></i> @Model.Category.CategoryName, @Model.Animal.Species
+
+
+
+            <br />
+
+            <i class="glyphicon glyphicon-user"></i> <i>adaugat de</i> <strong> @Model.User.UserName </strong>
+            <br />
+            @if (User.IsInRole("Admin"))
+            {
+
+                <span class="label label-success">@Model.Date</span>
+                if (Model.Visible)
+                {
+                    <i class="glyphicon glyphicon-eye-open"></i><i>Vizibil</i>
+                }
+                else
+                {
+                    <i class="glyphicon glyphicon-eye-close"></i><i>Invizibil</i>
+                }
+
+
+            }
+        </div>
+
+
+
+    </div>
+
+    <div style="display: block; width: 40%;">
+        <br />
+        <img src="/Files/@Model.File.FileName" style="width: 70%; height: auto; object-fit: cover; margin-left: 70px;" />
     </div>
     <br />
-    <strong>Descriere produs: </strong>@Model.Description
-    <br />
-    <div class="pull-right">
-        <p>Rating: @Math.Round(@Model.AvgRating, 2) /5</p>
-        @for (int i = 1; i <= Model.AvgRating; i++)
-        {
-            <span class="glyphicon glyphicon-star"></span>
-        }
-        @for (int i = (int)Model.AvgRating + 1; i <= 5; i++)
-        {
-            <span class="glyphicon glyphicon-star-empty"></span>
-        }
-    </div>
-    <strong>@Model.Price Lei</strong>
-    <br />
-    <i class="glyphicon glyphicon-list"></i> @Model.Category.CategoryName
-    <i class="glyphicon glyphicon-heart-empty"></i> @Model.Animal.Species
-    <br />
-    <span class="label label-info">@Model.Stock Produse disponibile</span>
-    <span class="label label-success">@Model.Date</span>
-    <i class="glyphicon glyphicon-user"></i> <i>adaugat de</i> <strong> @Model.User.UserName </strong>
-    <br />
-    @if (User.IsInRole("Admin"))
+
+</div>
+
+<div>
+    @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent || ViewBag.esteAdmin)
     {
-        if (Model.Visible)
-        {
-            <i class="glyphicon glyphicon-eye-open"></i><i>Vizibil</i>
-        }
-        else
-        {
-            <i class="glyphicon glyphicon-eye-close"></i><i>Invizibil</i>
-        }
+        <a class="btn btn-success pull-right" href="/Products/Edit/@Model.ProductID">Modifica produs</a>
 
-
+        using (Html.BeginForm(actionName: "Delete", controllerName: "Products", method: FormMethod.Post, routeValues: new { id = @Model.ProductID }))
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger pull-right" type="submit">Elimina produs</button>
+        }
     }
 </div>
+
+<section id="description" style="display:none;">
+
+    <br /><br /><br />
+    <hr /> <hr />
+    <h2>Descriere produs:</h2>
     <br />
+    <div>
+        @Model.Description
+    </div>
+</section>
+
+

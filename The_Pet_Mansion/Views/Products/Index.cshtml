@@ -1,9 +1,8 @@
 ﻿
-<h2>Produse</h2>
-<h1>@ViewBag.Message</h1>
+
 <script type="text/javascript">
     function changeValue() {
-        
+
         $("#search").val('@ViewBag.SearchString');
         $("#cat").val('@ViewBag.category');
         $("#anim").val('@ViewBag.animal');
@@ -11,7 +10,7 @@
     }
 
     function changeValue2() {
-        
+
         $("#search").val('@ViewBag.SearchString');
         $("#sort").val('@ViewBag.sort');
         $("#anim").val('@ViewBag.animal');
@@ -19,7 +18,7 @@
     }
 
     function changeValue3() {
-        
+
         $("#search").val('@ViewBag.SearchString');
         $("#cat").val('@ViewBag.category');
         $("#sort").val('@ViewBag.sort');
@@ -29,50 +28,66 @@
 </script>
 
 
+<form id="form" class="cls" method="GET">
+
+
+    @Html.DropDownList("Sort", new List<SelectListItem>
+          {
+          new SelectListItem{ Text="Pret crescator", Value = "1" },
+          new SelectListItem{ Text="Pret descrescator", Value = "2" },
+          new SelectListItem{ Text="Rating crescator", Value = "3" },
+          new SelectListItem{ Text="Rating descrescator", Value = "4" }
+          }, new { @id = "sort", @class = "form-control", onchange = "changeValue()" })
+
+    @Html.DropDownList("Categorii", new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.category), "Selectati categoria", new { @id = "cat", @class = "form-control ", onchange = "changeValue2()" })
+    @Html.DropDownList("Animale", new SelectList(ViewBag.Animals, "Value", "Text", ViewBag.animal), "Selectati specia", new { @id = "anim", @class = "form-control", onchange = "changeValue3()" })
 
 
 
+    <!--end of col-->
+    <div class="col">
+        <input id="search" class="form-control form-control-lg form-control-borderless " type="text" name="search" value="@ViewBag.SearchString"
+               placeholder="Cauta produse">
+    </div>
+    <!--end of col-->
+    <div class="col-auto">
+        <button class="glyphicon glyphicon-search" style="border: none; background: transparent; font-size:23px;" type="submit"></button>
+    </div>
+    <!--end of col-->
+
+</form>
+
+<!--end of col-->
+<br /><br />
+@if (ViewBag.Message != null)
+{
+    <h3 class="alert-danger" style="padding:5px 10px 5px 10px; margin-left:40px; margin-right:40px;">@ViewBag.Message</h3>
+}
 
 
-<br />
-<div class="container">
-    <br />
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-8">
-            <form id="form" class="card card-sm" method="GET">
-                @Html.Label("Ordoneaza dupa:")
-                @Html.DropDownList("Sort", new List<SelectListItem>
-                    {
-                    new SelectListItem{ Text="Pret crescator", Value = "1" },
-                    new SelectListItem{ Text="Pret descrescator", Value = "2" },
-                    new SelectListItem{ Text="Rating crescator", Value = "3" },
-                    new SelectListItem{ Text="Rating descrescator", Value = "4" }
-                    }, new { @id = "sort", @class = "form-control", onchange = "changeValue()" })
+<div class="container-fluid px-sm-1 py-5 mx-auto">
+    <div class="row ">
+        <div class="d-flex flex-row">
+            @foreach (The_Pet_Mansion.Models.Product product in ViewBag.Products)
+            {
 
-                @Html.DropDownList("Categorii", new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.category ), "Selectati categoria", new { @id = "cat", @class = "form-control", onchange = "changeValue2()" })
-                @Html.DropDownList("Animale", new SelectList(ViewBag.Animals, "Value", "Text", ViewBag.animal), "Selectati specia", new { @id = "anim", @class = "form-control", onchange = "changeValue3()" })
+                if (product.Visible || User.IsInRole("Admin"))
+                {
 
-                <div class="card-body row no-gutters align-items-center">
-                    <div class="col-auto">
-                        <i class="fas fa-search h4 text-body"></i>
-                    </div>
-                    <!--end of col-->
-                    <div class="col">
-                        <input id="search" class="form-control form-control-lg form-control-borderless" type="text" name="search" value="@ViewBag.SearchString"
-                               placeholder="Cauta produse">
-                    </div>
-                    <!--end of col-->
-                    <div class="col-auto">
-                        <button class="btn btn-lg btn-success" type="submit">Search</button>
-                    </div>
-                    <!--end of col-->
+                    @Html.Partial("ProductPreview", product)
+                }
+            }
+
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="fake-card" style="width: 25rem; height: 0.5rem; border: solid thin; margin:10px 10px 10px 10px; visibility:hidden;">
+
                 </div>
-            </form>
+            }
         </div>
-        <!--end of col-->
     </div>
 </div>
-<div>
+<div class="paginare">
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li>
@@ -235,164 +250,164 @@
             </li>
             @for (int i = 1; i <= ViewBag.lastPage; i++)
             {
-            <li>
-                @if (ViewBag.search != "")
-                {
-                    if (ViewBag.sort != "")
+                <li>
+                    @if (ViewBag.search != "")
                     {
-
-                        if (ViewBag.category != "")
+                        if (ViewBag.sort != "")
                         {
-                            if (ViewBag.animal != "")
+
+                            if (ViewBag.category != "")
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal">
-                                    @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category">
+                                        @(i)
+                                    </a>
+                                }
                             }
 
                             else
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Categorii=@ViewBag.category">  
-                                    @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort">
+                                        @(i)
+                                    </a>
+                                }
                             }
+
                         }
 
                         else
                         {
-                            if (ViewBag.animal != "")
+                            if (ViewBag.category != "")
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort&Animale=@ViewBag.animal" >
-                                  @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Categorii=@ViewBag.category&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Categorii=@ViewBag.category">
+                                        @(i)
+                                    </a>
+                                }
                             }
 
                             else
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Sort=@ViewBag.sort" >
-                                  @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&search=@ViewBag.SearchString">
+                                        @(i)
+                                    </a>
+                                }
                             }
                         }
-
                     }
-
                     else
                     {
-                        if (ViewBag.category != "")
+                        if (ViewBag.sort != "")
                         {
-                            if (ViewBag.animal != "")
+
+                            if (ViewBag.category != "")
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Categorii=@ViewBag.category&Animale=@ViewBag.animal" >
-                                    @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Categorii=@ViewBag.category">
+                                        @(i)
+                                    </a>
+                                }
                             }
 
                             else
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Categorii=@ViewBag.category" >
-                                   @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&Sort=@ViewBag.sort">
+                                        @(i)
+                                    </a>
+                                }
                             }
+
                         }
 
                         else
                         {
-                            if (ViewBag.animal != "")
+                            if (ViewBag.category != "")
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString&Animale=@ViewBag.animal" >
-                                    @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&Categorii=@ViewBag.category&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i&Categorii=@ViewBag.category">
+                                        @(i)
+                                    </a>
+                                }
                             }
 
                             else
                             {
-                                <a href="/Products/Index?page=@i&search=@ViewBag.SearchString" >
-                                  @(i)
-                                </a>
+                                if (ViewBag.animal != "")
+                                {
+                                    <a href="/Products/Index?page=@i&Animale=@ViewBag.animal">
+                                        @(i)
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a href="/Products/Index?page=@i">
+                                        @(i)
+                                    </a>
+                                }
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (ViewBag.sort != "")
-                    {
-
-                        if (ViewBag.category != "")
-                        {
-                            if (ViewBag.animal != "")
-                            {
-                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Categorii=@ViewBag.category&Animale=@ViewBag.animal" >
-                                    @(i)
-                                </a>
-                            }
-
-                            else
-                            {
-                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Categorii=@ViewBag.category">
-                                   @(i)
-                                </a>
-                            }
-                        }
-
-                        else
-                        {
-                            if (ViewBag.animal != "")
-                            {
-                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort&Animale=@ViewBag.animal" >
-                                   @(i)
-                                </a>
-                            }
-
-                            else
-                            {
-                                <a href="/Products/Index?page=@i&Sort=@ViewBag.sort" >
-                                   @(i)
-                                </a>
-                            }
-                        }
-
-                    }
-
-                    else
-                    {
-                        if (ViewBag.category != "")
-                        {
-                            if (ViewBag.animal != "")
-                            {
-                                <a href="/Products/Index?page=@i&Categorii=@ViewBag.category&Animale=@ViewBag.animal" >
-                                   @(i)
-                                </a>
-                            }
-
-                            else
-                            {
-                                <a href="/Products/Index?page=@i&Categorii=@ViewBag.category" >
-                                  @(i)
-                                </a>
-                            }
-                        }
-
-                        else
-                        {
-                            if (ViewBag.animal != "")
-                            {
-                                <a href="/Products/Index?page=@i&Animale=@ViewBag.animal" >
-                                    @(i)
-                                </a>
-                            }
-
-                            else
-                            {
-                                <a href="/Products/Index?page=@i" >
-                                   @(i)
-                                </a>
-                            }
-                        }
-                    }
-                }
-            </li>
+                </li>
             }
 
 
@@ -560,28 +575,7 @@
 </div>
 
 
-<div class="container-fluid px-sm-1 py-5 mx-auto">
-    <div class="row ">
-        <div class="d-flex flex-row">
-            @foreach (The_Pet_Mansion.Models.Product product in ViewBag.Products)
-            {
 
-                if (product.Visible || User.IsInRole("Admin"))
-                {
-
-                    @Html.Partial("ProductPreview", product)
-                }
-            }
-
-            @for (int i=0;i<3;i++)
-            {
-            <div class="fake-card" style="width: 25rem; height: 0.5rem; border: solid thin; margin:10px 10px 10px 10px; visibility:hidden;">
-
-            </div>
-            }
-        </div>
-    </div>
-</div>
 
 
 

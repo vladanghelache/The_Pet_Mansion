@@ -1,8 +1,11 @@
-﻿body {
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
-   
-    
+    background-color: #eef4ed;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -27,7 +30,7 @@ textarea {
 
 .d-flex {
     
-    background-color: aquamarine;
+   
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
@@ -39,20 +42,22 @@ textarea {
 
 
 }
-.btn-primary {
-    
-    
-}
+
 
 .show-rating{
     text-align: center;
     color: black;
 }
 
-.parent{
+.parent {
     position: relative;
     padding-top: 20px;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
 }
+
+    .parent:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
 .card-footer{
     position: absolute;
     bottom: 20px;
@@ -65,6 +70,7 @@ textarea {
     top: 220px;
     width: 100%;
     color: black;
+
     
 }
 .card-title {
@@ -90,3 +96,67 @@ textarea {
     top: 10px;
     right: 10px;
 }
+.buy {
+    width: 30%;
+    float: right;
+    display:block;
+    margin-right: 25px;
+   
+}
+
+.title1{
+    width:100%;
+    font-family:'Lora';
+    font-size: 25px;
+   
+}
+.tot{
+    overflow:auto;
+}
+
+.cls{
+    display:inline-flex;
+    width:100%;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.paginare{
+    text-align:center;
+}
+
+.dropdown {
+    margin-top:15px;
+   
+}
+
+#dropdownMenu1 {
+    text-decoration: none;
+    color: #9d9d9d;
+    background-color: transparent;
+    margin-left:10px;
+}
+    #dropdownMenu1:hover {
+        color: white;
+        background-color: transparent;
+    }
+
+.navbar-inverse {
+    background-color: #0B2545;
+    border-color: #0B2545;
+}
+
+.navbar-brand{
+    font-family:Redressed;
+    font-size:x-large;
+    font-weight:bold;
+    font-style:italic;
+}
+
+.cos{
+    border-color:black;
+    border-bottom:dotted;
+}
+
+
+

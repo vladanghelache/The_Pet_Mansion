@@ -1,15 +1,17 @@
 ﻿@model The_Pet_Mansion.Models.Order
 
+<h2 style="font-family:'Alef';">Istoric comenzi</h2>
 
-<h2>Show</h2>
-
-@foreach(var order in ViewBag.Orders)
+@foreach (var order in ViewBag.Orders)
 {
 
+<div class="panel panel-default" style="padding-left:20px;">
+    <a class="btn btn-primary pull-right" href="/Orders/Show_order/@order.OrderID" style="margin-top:40px;margin-right:20px;"><i class="glyphicon glyphicon-info-sign"></i> Detalii comanda</a>
     <h3>Comanda cu numarul: @order.OrderID</h3>
-    <h4>Data: @order.Date</h4>
-    <h4>@order.TotalPrice</h4>
-    <a href="/Orders/Show_order/@order.OrderID">Detalii comanda</a>
-    <br /><br />
+    <h4>Data si ora efectuarii comenzii: @order.Date</h4>
+    <h4>Pret total: @order.TotalPrice lei</h4>
+
+</div>
+
 }
 

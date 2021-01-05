@@ -23,45 +23,64 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
                     {
+                        <li>
+                            <div class="dropdown">
+                                <a href="#" id="dropdownMenu1" data-toggle="dropdown">
+                                    Actiuni
+                                    <span class="caret"></span>
 
-                        <li>@Html.ActionLink("Afisare categorii", "Index", "Categories")</li>
-                        <li>@Html.ActionLink("Afisare utilizatori", "Index", "Users")</li>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+
+                                        <li>@Html.ActionLink("Afisare categorii", "Index", "Categories")</li>
+                                        <li>@Html.ActionLink("Afisare utilizatori", "Index", "Users")</li>
+
+                                    }
+
+                                    @if (User.IsInRole("Editor") || User.IsInRole("Admin"))
+                                    {
+                                        <li>@Html.ActionLink("Adaugare produs", "New", "Products")</li>
 
 
+                                    }
 
+                                </ul>
+                            </div>
+                        </li>
                     }
 
 
-                    <li>@Html.ActionLink("Afisare produse", "Index", "Products")</li>
 
 
-                    @if (User.IsInRole("Editor") || User.IsInRole("Admin"))
+                    @if (User.IsInRole("User") || User.IsInRole("Editor") || User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Adaugare produs", "New", "Products")</li>
-                        <li><a class="pull-right" href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
-                        <li><a class="pull-right" href="/Orders/Show_redirect">Comenzile tale</a></li>
-
-                    }
-
-                    @if (User.IsInRole("User"))
-                    {
-                        <li><a class="pull-right" href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
-                        <li><a class="pull-right" href="/Orders/Show_redirect">Comenzile tale</a></li>
+                        <li><a href="/Cart/Show1"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+                        <li><a href="/Orders/Show_redirect">Comenzile tale</a></li>
                     }
 
                 </ul>
+
                     @Html.Partial("_LoginPartial")
 
 
 
-               
-
-
-                </div>
+            </div>
         </div>
-    </div>
+        </div>
+    
+    
+    
+  
+
+
+
+
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />

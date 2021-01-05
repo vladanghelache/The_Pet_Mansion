@@ -26,15 +26,9 @@ namespace The_Pet_Mansion.Controllers
 
             try
             {
-
-                
                 cart.CartID = id;
                 db.Carts.Add(cart);
                 db.SaveChanges();
-                
-               
-
-
             }
 
             catch (Exception e)
@@ -47,12 +41,26 @@ namespace The_Pet_Mansion.Controllers
         public ActionResult Show(string id)
         {
             Cart cart = db.Carts.Find(id);
-            if (TempData.ContainsKey("message"))
+            if (cart.CartID == User.Identity.GetUserId() )
             {
-                ViewBag.Message = TempData["message"];
+                if (TempData.ContainsKey("message"))
+                {
+                    ViewBag.Message = TempData["message"];
+                }
+                return View(cart);
+
             }
 
-            return View(cart);
+            else
+            {
+
+                TempData["message"] = "Nu aveti dreptul sa vizualizati cosul altui user!";
+                return Redirect("/Products/Index");
+
+            }
+            
+
+            
         }
 
         public ActionResult Show1()
