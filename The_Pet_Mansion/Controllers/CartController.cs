@@ -116,6 +116,7 @@ namespace The_Pet_Mansion.Controllers
         [NonAction]
         public void NewOrder()
         {
+            Exception totalPriceZero = new Exception();
             try
             {
 
@@ -127,6 +128,7 @@ namespace The_Pet_Mansion.Controllers
                 order.Date = DateTime.Now;
                 order.Address = cart.Address;
                 order.PhoneNumber = cart.PhoneNumber;
+                
                 db.Orders.Add(order);
                 db.SaveChanges();
 
@@ -138,11 +140,17 @@ namespace The_Pet_Mansion.Controllers
                     orderLine.OrderID = order.OrderID;
                     orderLine.ProductID = x.ProductID;
                     orderLine.Quantity = x.Quantity;
-                    x.Product.Stock = x.Product.Stock - x.Quantity;
+                   
                     total_price = total_price + (x.Product.Price * x.Quantity);
                     db.OrderLines.Add(orderLine);
                     db.SaveChanges();
 
+                }
+                if(total_price == 0)
+                {
+                    db.Orders.Remove(order);
+                    db.SaveChanges();
+                    throw totalPriceZero;
                 }
                 order.TotalPrice = total_price;
                 db.SaveChanges();
@@ -150,6 +158,7 @@ namespace The_Pet_Mansion.Controllers
                 int n = cart.CartLines.Count();
                 while( n-- > 0 )
                 {
+                    cart.CartLines.First().Product.Stock = cart.CartLines.First().Product.Stock - cart.CartLines.First().Quantity;
                     db.CartLines.Remove(cart.CartLines.First());
                     db.SaveChanges();
                 }
