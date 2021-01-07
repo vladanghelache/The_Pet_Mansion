@@ -77,6 +77,8 @@ namespace The_Pet_Mansion.Controllers
 
         }
 
+
+        //metoda prin care trimitem comanda -- modificam adresa, nr de telefon stocate in BD
         [HttpPut]
         public ActionResult Edit(string id, Cart requestCart)
         {

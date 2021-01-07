@@ -30,6 +30,7 @@ namespace The_Pet_Mansion.Controllers
             return View();
         }
 
+        //folosit in Layout
         public ActionResult Show_redirect()
         {
             string UserId = User.Identity.GetUserId();

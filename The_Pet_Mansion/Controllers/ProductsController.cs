@@ -79,15 +79,8 @@ namespace The_Pet_Mansion.Controllers
                 products =products.OrderByDescending(a => a.AvgRating);
             }
 
-
-
-
-                /*var files = from path in db.UploadFiles
-                            where 
-                            select path;
-            ViewBag.Files = files;
-                */
-                var search = "";
+              
+            var search = "";
             if(Request.Params.Get("search") != null)
             {
                 search = Request.Params.Get("search").Trim();
@@ -237,57 +230,55 @@ namespace The_Pet_Mansion.Controllers
         [NonAction]
         public ActionResult Upload2(HttpPostedFileBase uploadedFile, int id)
         {
-            // Se preia numele fisierul
+            
             string uploadedFileName = uploadedFile.FileName;
             string uploadedFileExtension = Path.GetExtension(uploadedFileName);
 
-            // Se poate verifica daca extensia este intr-o lista dorita
+            
             if (uploadedFileExtension == ".png" || uploadedFileExtension == ".jpg" || uploadedFileExtension == ".jpeg")
             {
-                // Se stocheaza fisierul in folderul Files (folderul trebuie creat in proiect)
+                
 
-                // 1. Se seteaza calea folderului de upload
+                
                 string uploadFolderPath = Server.MapPath("~//Files//");
 
-                // 2. Se salveaza fisierul in acel folder
+                
                 uploadedFile.SaveAs(uploadFolderPath + uploadedFileName);
 
-                // 3. Se face o instanta de model si se populeaza cu datele necesare
+               
                 UploadFile file = new UploadFile();
                 file.FileId = id;
                 file.Extension = uploadedFileExtension;
                 file.FileName = uploadedFileName;
                 file.FilePath = uploadFolderPath + uploadedFileName;
 
-                // 4. Se adauga modelul in baza de date
+              
                 db.UploadFiles.Add(file);
                 db.SaveChanges();
 
-                // 5. Return catre index cu mesaj de succes - TODO
+                
                 return Redirect("/Products/Index");
 
             }
 
-            // TODO: tratarea erorilor
+            
             return View();
         }
 
         [NonAction]
         public ActionResult ChangePhoto(HttpPostedFileBase uploadedFile, int id)
         {
-            // Se preia numele fisierul
+            
             string uploadedFileName = uploadedFile.FileName;
             string uploadedFileExtension = Path.GetExtension(uploadedFileName);
 
-            // Se poate verifica daca extensia este intr-o lista dorita
+            
             if (uploadedFileExtension == ".png" || uploadedFileExtension == ".jpg" || uploadedFileExtension == ".pdf")
             {
-                // Se stocheaza fisierul in folderul Files (folderul trebuie creat in proiect)
-
-                // 1. Se seteaza calea folderului de upload
+                
                 string uploadFolderPath = Server.MapPath("~//Files//");
 
-                // 2. Se salveaza fisierul in acel folder
+                
                 uploadedFile.SaveAs(uploadFolderPath + uploadedFileName);
 
                 
@@ -305,7 +296,7 @@ namespace The_Pet_Mansion.Controllers
 
             }
 
-            // TODO: tratarea erorilor
+            
             return View();
         }
 
