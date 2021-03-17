@@ -12,9 +12,9 @@ Au fost utilizate:
 * Entity Framework
 * Identity Framework
 * Bootstrap  
-Cerinta Proiectului
 
-Platforma “Online shop” cu urmatoarele functionalitati:
+## Cerinta Proiectului
+Sa se implementeze o platforma “Online shop” cu urmatoarele functionalitati:
 - sa existe 4 tipuri de utilizatori: utilizator neinregistrat, inregistrat, 
 colaborator, administrator   
 - utilizatorul colaborator poate adauga produse in magazin. (0.5p). Acesta va 
@@ -36,5 +36,5 @@ pot edita sau sterge
 - produsele pot fi cautate dupa denumire prin intermediul unui motor de 
 cautare si pot fi sortate crescator, respectiv descrescator in functie de pret si 
 numarul de stele   
--administratorul poate sterge si edita atat produse, cat si comentarii. Acesta 
+- administratorul poate sterge si edita atat produse, cat si comentarii. Acesta 
 poate, de asemenea, sa activeze sau sa revoce drepturile utilizatorilor.  
